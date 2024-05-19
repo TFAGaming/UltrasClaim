@@ -1,0 +1,11 @@
+name: ultrasclaimprotection
+main: ultrasclaimprotection.UltrasClaimProtection
+version: 1.0.0-prerelease-1
+api-version: 1.20.6
+commands:
+  lands:
+    description: 'The main UltrasClaim command'
+    usage: '/<command> [subcommand]'
+    aliases:
+     - land
+    permission: ultrasclaim.lands
