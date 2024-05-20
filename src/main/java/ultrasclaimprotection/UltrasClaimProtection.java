@@ -1,18 +1,39 @@
 package ultrasclaimprotection;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ultrasclaimprotection.commands.LandsCommand;
 import ultrasclaimprotection.database.Database;
+import ultrasclaimprotection.events.gui.PaginationGUIListener;
+import ultrasclaimprotection.events.teleportation.PlayerMoved;
 import ultrasclaimprotection.utils.console.Console;
+import ultrasclaimprotection.utils.language.LanguageLoader;
 
 public class UltrasClaimProtection extends JavaPlugin {
 	public static Database database;
+	public static LanguageLoader language;
 
 	public void onEnable() {
+		saveDefaultConfig();
+
 		Console.printPluginBanner();
+
+		try {
+            LanguageLoader languageLoader = new LanguageLoader(this);
+
+            UltrasClaimProtection.language = languageLoader;
+        } catch (IOException error) {
+            Console.error("Failed to load language file.");
+
+            error.printStackTrace();
+
+			disablePlugin();
+
+            return;
+        }
 
 		if (!getDataFolder().exists()) {
 			getDataFolder().mkdirs();
@@ -23,9 +44,18 @@ public class UltrasClaimProtection extends JavaPlugin {
 
 		try {
 			UltrasClaimProtection.database.getTablesReady();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException error) {
+			Console.error("Failed to connect to the database.");
+
+			error.printStackTrace();
+
+			disablePlugin();
+
+			return;
 		}
+
+		getServer().getPluginManager().registerEvents(new PaginationGUIListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerMoved(), this);
 
 		getCommand("lands").setExecutor(new LandsCommand());
         getCommand("land").setExecutor(new LandsCommand());
@@ -36,4 +66,8 @@ public class UltrasClaimProtection extends JavaPlugin {
 	public void onDisable() {
 		Console.info("The plugin is turned off.");
 	}
+
+	private void disablePlugin() {
+        getServer().getPluginManager().disablePlugin(this);
+    }
 }

@@ -145,7 +145,7 @@ public class LandsManager {
         }
     }
 
-    public static boolean containsPlayerUUID(Player player) {
+    public static boolean containsPlayer(Player player) {
         boolean value = false;
 
         for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {

@@ -1,0 +1,101 @@
+general:
+  delayed_teleport:
+    bossbar:
+      title: "&6Teleporting..."
+      color: "YELLOW"
+      style: "SOLID"
+    messages:
+      player_moved: "&cThe teleportation has been canceled because you moved."
+      delay_already_exist: "&cPlease wait until this requested teleportation finishes."
+
+commands:
+  prefix: "&8[&9UltrasClaim&8] &r"
+
+  claim:
+    chunk_taken: "&cThis chunk is already been claimed."
+    land_name_arg_null: "&cPlease provide a new land name, because you're going to create a new one."
+    land_name_taken: "&cThis land name is already been taken, please choose another one."
+    chunk_claimed: "&aYou have successfully claimed this chunk."
+
+  claimlist:
+    land_null: "&cYou must create a land to view the claims list."
+    teleport_success: "&aSuccessfully teleport to the chunk: &9%chunk_x%, &9%chunk_z% &7(%chunk_world%)"
+
+  unclaim:
+    chunk_not_taken: "&cThis chunk is not claimed."
+    land_null: "&cYou must create a land to unclaim this chunk."
+    chunk_not_owner: "&cYou don't own this chunk."
+    chunk_unclaimed: "&aYou have successfully unclaimed this chunk."
+    land_deleted: "&eYour land was deleted because there are no chunks to maintain it."
+
+  member_add:
+    land_null: "&cYou must create a land to manage members."
+    player_arg_null: "&cYou must provide the player name."
+    player_null: "&cThis player name was not found."
+    player_trusted: "&cThis player is already been trusted in this land."
+    role_arg_null: "&cYou must provide the role name."
+    role_null: "&cThis role name was not found."
+    player_added: "&aSuccessfully trusted the player, they are now a member of your land."
+
+  member_list:
+    land_null: "&cYou must create a land to manage members."
+
+  member_remove:
+    land_null: "&cYou must create a land to manage members."
+    player_arg_null: "&cYou must provide the player name."
+    player_null: "&cThis player name was not found."
+    player_not_trusted: "&cThis player is not trusted in this land."
+    player_removed: "&aSuccessfully removed the player from your land."
+
+  view:
+    chunk_not_taken: "&cThis chunk is part of Wilderness."
+    view_success: "&aYou may take a look around the land to view the particles."
+
+gui:
+  config:
+    pagination:
+      previous_page:
+        displayname: "&9Previous"
+        lore:
+          - "&7Go to previous page"
+        item: "HEAD-86971dd881dbaf4fd6bcaa93614493c612f869641ed59d1c9363a3666a5fa6"
+      page_information:
+        displayname: "&7Page &3%current_page%&7/&c%total_pages%"
+        lore: null
+        item: "PAPER"
+      next_page:
+        displayname: "&9Next"
+        lore:
+          - "&7Go to next page"
+        item: "HEAD-f32ca66056b72863e98f7f32bd7d94c7a0d796af691c9ac3a9136331352288f9" 
+    normal:
+      close_button:
+        displayname: "&cClose"
+        lore:
+          - "&7Closes the GUI."
+        item: "BARRIER"
+      back_button:
+        displayname: "&cBack"
+        lore:
+          - "&7Opens the previous GUI."
+        item: "BARRIER"
+
+  land_members:
+    title: "&9Land Members"
+    items:
+      displayname: "&9Player: &e%member_name%"
+      lore:
+        - "&aRole: &7%role_name%"
+        - "&aJoined at: &7%joined_at%"
+      item: "HEAD-d1d2b7dd66ffd86ad4709927b175e83f1a9e10fbc864b2390403708f39d8efd8" 
+
+  land_claimlist:
+    title: "&9Land Claimlist"
+    items:
+      displayname: "&9Chunk: &e%chunk_x%, %chunk_z%"
+      lore:
+        - "&aWorld: &7%chunk_world%"
+        - "&aLand: &7%chunk_land%"
+        - "&aClaimed at: &7%claimed_at%"
+        - "&7Click to teleport to the chunk"
+      item: "HEAD-5eaa9ac15758d5177a896605985e98beac8fee0e6b2c68a8dc1f3c91c079fb89" 

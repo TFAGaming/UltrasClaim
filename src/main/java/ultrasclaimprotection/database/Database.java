@@ -4,6 +4,8 @@ import java.sql.*;
 
 import ultrasclaimprotection.UltrasClaimProtection;
 import ultrasclaimprotection.managers.LandChunksManager;
+import ultrasclaimprotection.managers.LandMembersManager;
+import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.console.Console;
 
@@ -75,6 +77,8 @@ public class Database {
 
         LandsManager.updateCache();
         LandChunksManager.updateCache();
+        LandMembersManager.updateCache();
+        LandRolesManager.updateCache();
     }
 
     private void executeStatement(String sql) throws SQLException {

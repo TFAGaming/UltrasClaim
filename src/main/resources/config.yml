@@ -1,2 +1,20 @@
 database:
   path: "/database.db"
+
+textures:
+  url: "https://textures.minecraft.net/texture/%texture_url%"
+
+lands:
+  border_colors:
+    visitor:
+      - 255
+      - 0
+      - 0
+    trusted:
+      - 255
+      - 255
+      - 0
+    owner:
+      - 0
+      - 255
+      - 0

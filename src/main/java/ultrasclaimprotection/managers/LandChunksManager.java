@@ -15,6 +15,7 @@ import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
+import ultrasclaimprotection.utils.flags.PlayerFlags;
 
 public class LandChunksManager {
     private static final Map<String, List<Object>> cache = new HashMap<>();
@@ -38,7 +39,7 @@ public class LandChunksManager {
                 int chunk_z = result.getInt("chunk_z");
                 String chunk_world = result.getString("chunk_world");
                 int land_id = result.getInt("land_id");
-                double created_at = result.getLong("created_at");
+                long created_at = result.getLong("created_at");
 
                 List<Object> cache_data = new ArrayList<Object>();
 
@@ -167,6 +168,31 @@ public class LandChunksManager {
         return null;
     }
 
+    public static Object getByChunkCoordinates(int chunk_x, int chunk_z, String chunk_world, String variable) {
+        if (cache.containsKey(createCacheKey(chunk_x, chunk_z, chunk_world))) {
+            List<Object> data = cache.get(createCacheKey(chunk_x, chunk_z, chunk_world));
+
+            switch (variable) {
+                case "chunk_id":
+                    return data.get(0);
+                case "chunk_x":
+                    return data.get(1);
+                case "chunk_z":
+                    return data.get(2);
+                case "chunk_world":
+                    return data.get(3);
+                case "land_id":
+                    return data.get(4);
+                case "created_at":
+                    return data.get(5);
+                default:
+                    return null;
+            }
+        }
+
+        return null;
+    }
+
     public static Map<String, List<Object>> getCache() {
         return cache;
     }
@@ -193,6 +219,40 @@ public class LandChunksManager {
         } else {
             return null;
         }
+    }
+
+    public static List<List<Object>> getChunks(int land_id) {
+        List<List<Object>> chunks = new ArrayList<>();
+
+        for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if ((int) data.get(4) == land_id) {
+                chunks.add(data.subList(1, 6));
+            }
+        }
+
+        return chunks;
+    }
+
+    public static int getPlayerFlag(int land_id, Player player) {
+        Player chunk_owner = Bukkit.getOfflinePlayer(UUID.fromString((String) LandsManager.get(land_id, "owner_uuid"))).getPlayer();
+
+        if (chunk_owner.getUniqueId().equals(player.getUniqueId())) {
+            return PlayerFlags.LAND_OWNER;
+        }
+
+        return PlayerFlags.LAND_VISITOR;
+    }
+
+    public static int getPlayerFlagByChunk(Chunk chunk, Player player) {
+        Player chunk_owner = getChunkOwner(chunk);
+
+        if (chunk_owner.getUniqueId().equals(player.getUniqueId())) {
+            return PlayerFlags.LAND_OWNER;
+        }
+
+        return PlayerFlags.LAND_VISITOR;
     }
 
     private static String createCacheKey(int chunk_x, int chunk_z, String chunk_world) {

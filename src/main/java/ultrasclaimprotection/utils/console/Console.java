@@ -10,7 +10,12 @@ public class Console {
     };
 
     public static void printPluginBanner() {
-        String line_splitter = "-".repeat(56);
+        String line_splitter = "";
+
+        for (int i = 0; i < 56; i++) {
+            line_splitter += "-";
+        }
+
         String banner = " _   _ _ _                 _____ _       _           \r\n" + //
                         "| | | | | |               /  __ \\ |     (_)          \r\n" + //
                         "| | | | | |_ _ __ __ _ ___| /  \\/ | __ _ _ _ __ ___  \r\n" + //
