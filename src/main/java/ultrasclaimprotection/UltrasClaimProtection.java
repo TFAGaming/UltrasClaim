@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ultrasclaimprotection.commands.LandsCommand;
 import ultrasclaimprotection.database.Database;
+import ultrasclaimprotection.events.gui.NormalGUIListener;
 import ultrasclaimprotection.events.gui.PaginationGUIListener;
 import ultrasclaimprotection.events.teleportation.PlayerMoved;
 import ultrasclaimprotection.utils.console.Console;
@@ -55,6 +56,7 @@ public class UltrasClaimProtection extends JavaPlugin {
 		}
 
 		getServer().getPluginManager().registerEvents(new PaginationGUIListener(), this);
+		getServer().getPluginManager().registerEvents(new NormalGUIListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMoved(), this);
 
 		getCommand("lands").setExecutor(new LandsCommand());

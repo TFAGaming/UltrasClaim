@@ -133,15 +133,22 @@ public class LandRolesManager {
         return value;
     }
 
-    public static boolean containsByRoleName(int land_id, String role_name) {
+    public static boolean containsByRoleName(int land_id, String role_name, boolean ignorecase) {
         boolean value = false;
 
         for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
             List<Object> data = entry.getValue();
 
-            if (((String) data.get(1)).equals(role_name) && (int) data.get(3) == land_id) {
-                value = true;
-                break;
+            if (ignorecase) {
+                if (((String) data.get(1)).equalsIgnoreCase(role_name) && (int) data.get(3) == land_id) {
+                    value = true;
+                    break;
+                }
+            } else {
+                if (((String) data.get(1)).equals(role_name) && (int) data.get(3) == land_id) {
+                    value = true;
+                    break;
+                }
             }
         }
 
@@ -162,9 +169,9 @@ public class LandRolesManager {
                 case "land_id":
                     return data.get(3);
                 case "role_flags":
-                    return data.get(5);
+                    return data.get(4);
                 case "created_at":
-                    return data.get(6);
+                    return data.get(5);
                 default:
                     return null;
             }
@@ -202,9 +209,9 @@ public class LandRolesManager {
                     case "land_id":
                         return data.get(3);
                     case "role_flags":
-                        return data.get(5);
+                        return data.get(4);
                     case "created_at":
-                        return data.get(6);
+                        return data.get(5);
                     default:
                         return null;
                 }
@@ -216,6 +223,25 @@ public class LandRolesManager {
 
     public static Map<String, List<Object>> getCache() {
         return cache;
+    }
+
+    public static void rename(int land_id, int role_id, String name) {
+        String sql = "UPDATE land_roles SET role_name='" + name + "' WHERE role_id = ? AND land_id = ?";
+
+        try {
+            Connection connection = UltrasClaimProtection.database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, role_id);
+            statement.setInt(2, land_id);
+
+            statement.execute();
+            statement.close();
+
+            updateCache();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String createCacheKey(int land_id, int role_id) {

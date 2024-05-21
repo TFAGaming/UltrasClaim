@@ -7,12 +7,17 @@ general:
     messages:
       player_moved: "&cThe teleportation has been canceled because you moved."
       delay_already_exist: "&cPlease wait until this requested teleportation finishes."
+  variables:
+    enabled: "&a✔ Enabled &r"
+    disabled: "&c✘ Disabled &r"
+    null: "&cNone &r"
 
 commands:
   prefix: "&8[&9UltrasClaim&8] &r"
 
   claim:
     chunk_taken: "&cThis chunk is already been claimed."
+    chunk_disabled_world: "&cYou are currently in a world where chunks cannot be claimed."
     land_name_arg_null: "&cPlease provide a new land name, because you're going to create a new one."
     land_name_taken: "&cThis land name is already been taken, please choose another one."
     chunk_claimed: "&aYou have successfully claimed this chunk."
@@ -46,6 +51,37 @@ commands:
     player_null: "&cThis player name was not found."
     player_not_trusted: "&cThis player is not trusted in this land."
     player_removed: "&aSuccessfully removed the player from your land."
+
+  player_information:
+    player_arg_null: "&cYou must provide the player name."
+    player_not_registered: "&cThis player has never joined this server."
+    player_null: "&cThis player name was not found."
+
+  role_create:
+    land_null: "&cYou must create a land to manage roles."
+    role_arg_null: "&cYou must provide a role name."
+    role_found: "&cThis role name already exists, please choose another one."
+    role_created: "&aSuccessfully created a new role."
+
+  role_delete:
+    land_null: "&cYou must create a land to manage roles."
+    role_arg_null: "&cYou must provide a role name."
+    role_null: "&cThis role name does not exist."
+    role_undeletable: "&cThis role cannot be deleted."
+    role_deleted: "&aSuccessfully deleted the role."
+
+  role_permissions:
+    land_null: "&cYou must create a land to manage roles."
+    role_arg_null: "&cYou must provide a role name."
+    role_null: "&cThis role name does not exist."
+
+  role_rename:
+    land_null: "&cYou must create a land to manage roles."
+    role_arg_null: "&cYou must provide a role name."
+    role_null: "&cThis role name does not exist."
+    role_newname_arg_null: "&cYou must provide a new role name."
+    role_newname_found: "&cThere is another role with the same role name."
+    role_renamed: "&aSuccessfully renamed the role."
 
   view:
     chunk_not_taken: "&cThis chunk is part of Wilderness."
@@ -95,7 +131,223 @@ gui:
       displayname: "&9Chunk: &e%chunk_x%, %chunk_z%"
       lore:
         - "&aWorld: &7%chunk_world%"
+        - "&aCoordinates: &7%location_x%, %location_z%"
         - "&aLand: &7%chunk_land%"
         - "&aClaimed at: &7%claimed_at%"
         - "&7Click to teleport to the chunk"
       item: "HEAD-5eaa9ac15758d5177a896605985e98beac8fee0e6b2c68a8dc1f3c91c079fb89" 
+
+  player_information:
+    title: "&9Player Information"
+    size: 27
+    items:
+      - slot: 11
+        displayname: "&9Player: &e%player_name%"
+        lore:
+          - "&aLast seen: &7%player_seen_date%"
+          - "&aPing: &7%player_ping%ms"
+          - "&aOwner of the land: &7%player_land%"
+        item: "HEAD-d1d2b7dd66ffd86ad4709927b175e83f1a9e10fbc864b2390403708f39d8efd8"
+      - slot: 15
+        displayname: "&9Joined lands"
+        lore:
+          - "&6%player_lands_list%"
+        item: "HEAD-e19997593f2c592b9fbd4f15ead1673b76f519d7ab3efa15edd19448d1a20bfc"
+
+  role_permissions:
+    title: "&9Role Permissions: &6%role_name%"
+    items:
+      displayname: "%item_displayname% (&8%permission%&9)"
+      lore: null # Go to "items.role_permissions.[permission].lore" and configure each role permission lore!
+      item: null # Go to "items.role_permissions.[permission].item" and configure each role permission item type!
+
+items:
+  role_permissions:
+    BREAK_BLOCKS:
+      displayname: "&9Break Blocks"
+      lore:
+        - "Allow players to break blocks?"
+        - "&7Value: %permission_value%"
+      item: "IRON_PICKAXE"
+    PLACE_BLOCKS:
+      displayname: "&9Place Blocks"
+      lore:
+        - "Allow players to place blocks?"
+        - "&7Value: %permission_value%"
+      item: "OAK_LOG"
+    CONTAINERS:
+      displayname: "&9Containers"
+      lore:
+        - "Allow players to open containers?"
+        - "Containers are Chests, Barrels, Shulker boxes... etc."
+        - "Ender chests and Enchanting tables are excluded."
+        - "&7Value: %permission_value%"
+      item: "CHEST"
+    DOORS:
+      displayname: "&9Doors"
+      lore:
+        - "Allow players to open and close doors?"
+        - "&7Value: %permission_value%"
+      item: "OAK_DOOR"
+    TRAP_DOORS:
+      displayname: "&9Trap Doors"
+      lore:
+        - "Allow players to open and close trap doors?"
+        - "&7Value: %permission_value%"
+      item: "OAK_TRAPDOOR"
+    FENCE_GATES:
+      displayname: "&9Fence Gates"
+      lore:
+        - "Allow players to open and close fence gates?"
+        - "&7Value: %permission_value%"
+      item: "OAK_FENCE_GATE"
+    SIGNS:
+      displayname: "&9Signs"
+      lore:
+        - "Allow players to interact with signs?"
+        - "If enabled, players have the ability to:"
+        - "• Edit signs, and hanging signs too"
+        - "• Use glow ink sac on signs"
+        - "&7Value: %permission_value%"
+      item: "OAK_SIGN"
+    REDSTONE:
+      displayname: "&9Redstone"
+      lore:
+        - "Allow players to configure redstone components?"
+        - "&7Value: %permission_value%"
+      item: "REDSTONE"
+    LEVERS:
+      displayname: "&9Levers"
+      lore:
+        - "Allow players to use levers?"
+        - "&7Value: %permission_value%"
+      item: "LEVER"
+    BUTTONS:
+      displayname: "&9Buttons"
+      lore:
+        - "Allow players to use buttons?"
+        - "&7Value: %permission_value%"
+      item: "STONE_BUTTON"
+    PRESSURE_PLATES:
+      displayname: "&9Pressure plates"
+      lore:
+        - "Allow players to step on pressure plates?"
+        - "&7Value: %permission_value%"
+      item: "STONE_PRESSURE_PLATE"
+    FROST_WALKER:
+      displayname: "&9Frost Walker"
+      lore:
+        - "Allow players to use Frost Walker boots?"
+        - "&7Value: %permission_value%"
+      item: "DIAMOND_BOOTS"
+    HARVEST_CROPS:
+      displayname: "&9Harvest Crops"
+      lore:
+        - "Allow players to break crops?"
+        - "&7Value: %permission_value%"
+      item: "WHEAT_SEEDS"
+    GENERAL_INTERACTION:
+      displayname: "&9General Interactions"
+      lore:
+        - "Allow players to do general interactions?"
+        - "If enabled, players have the ability to:"
+        - "• Pick up flowers from pots"
+        - "• Extinguish candles"
+        - "• Change position of items that are on item frames"
+        - "• ... etc."
+        - "&7Value: %permission_value%"
+      item: "STRING"
+    ARMOR_STANDS:
+      displayname: "&9Armor Stands"
+      lore:
+        - "Allow players to take off and place armors from armor stands?"
+        - "&7Value: %permission_value%"
+      item: "ARMOR_STAND"
+    INTERACT_ENTITIES:
+      displayname: "&9Interact with Entities"
+      lore:
+        - "Allow players to interact with entities?"
+        - "If enabled, players have the ability to:"
+        - "• Rename entities"
+        - "• Dye sheeps wool and pets collars color"
+        - "• Leash entities"
+        - "&7Value: %permission_value%"
+      item: "SHEARS"
+    DAMAGE_PASSIVE_ENTITIES:
+      displayname: "&9Damage Passive Mobs"
+      lore:
+        - "Allow players to kill passive mobs?"
+        - "Passive mobs are mobs that will never attack players, like Sheeps."
+        - "&7Value: %permission_value%"
+      item: "HEAD-84e5cdb0edb362cb454586d1fd0ebe971423f015b0b1bfc95f8d5af8afe7e810"
+    DAMAGE_HOSTILE_ENTITIES:
+      displayname: "&9Damage Hostile Mobs"
+      lore:
+        - "Allow players to kill hostile mobs?"
+        - "Hostile mobs are mobs that will always chase players, like Zombies."
+        - "&7Value: %permission_value%"
+      item: "ZOMBIE_HEAD"
+    TRADE_VILLAGERS:
+      displayname: "&9Trade With Villagers"
+      lore:
+        - "Allow players to trade with Villagers?"
+        - "&7Value: %permission_value%"
+      item: "EMERALD"
+    IGNITE:
+      displayname: "&9Ignite"
+      lore:
+        - "Allow players to start fire?"
+        - "&7Value: %permission_value%"
+      item: "FLINT_AND_STEEL"
+    VEHICLES:
+      displayname: "&9Vehicles"
+      lore:
+        - "Allow players to use vehicles?"
+        - "If enabled, players have the ability to ride vehicles like Horses, Minecarts... etc."
+        - "&7Value: %permission_value%"
+      item: "MINECART"
+    TELEPORT_SPAWN:
+      displayname: "&9Teleport to Spawn"
+      lore:
+        - "Allow players to visit your land?"
+        - "If enabled, players have the ability to teleport your land."
+        - "&cWarning: This permission is dangerous because players might"
+        - "&cgrief outside of your land by copying your land coordinates."
+        - "&7Value: %permission_value%"
+      item: "ENDER_EYE"
+    ENTER_LAND:
+      displayname: "&9Enter Land"
+      lore:
+        - "Allow players to enter to your land?"
+        - "If disabled, every player on the server cannot enter to your land."
+        - "&eNote: If you have trusted members, keep this permission enabled."
+        - "&7Value: %permission_value%"
+      item: "IRON_BOOTS"
+    PVP:
+      displayname: "&9Player versus Player"
+      lore:
+        - "Allow players to PvP?"
+        - "&7Value: %permission_value%"
+      item: "DIAMOND_SWORD"
+    THROW_ENDER_PEARLS:
+      displayname: "&9Throw Ender Pearls"
+      lore:
+        - "Allow players to throw Ender pearls?"
+        - "&7Value: %permission_value%"
+      item: "ENDER_PEARL"
+    THROW_POTIONS:
+      displayname: "&9Throw Potions"
+      lore:
+        - "Allow players to throw lingering and splash potions?"
+        - "&eNote: If PVP flag is disabled and this permission is enabled, players have"
+        - "&ethe ability to bypass the PVP flag by throwing Instant Damage splash potions."
+        - "&7Value: %permission_value%"
+      item: "SPLASH_POTION"
+    PICKUP_ITEMS:
+      displayname: "&9Pick up items"
+      lore:
+        - "Allow players to pick up items?"
+        - "If enabled, players cannot pick up items from the ground and throw items from"
+        - "their inventories."
+        - "&7Value: %permission_value%"
+      item: "SUNFLOWER"

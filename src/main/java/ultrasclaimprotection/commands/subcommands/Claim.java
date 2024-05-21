@@ -1,17 +1,18 @@
 package ultrasclaimprotection.commands.subcommands;
 
+import java.util.List;
+
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import ultrasclaimprotection.UltrasClaimProtection;
 import ultrasclaimprotection.managers.LandChunksManager;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
-import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
 
@@ -24,6 +25,16 @@ public class Claim implements CommandExecutor {
 
             if (LandChunksManager.contains(chunk)) {
                 player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.claim.chunk_taken")));
+                return true;
+            }
+
+            List<String> disabled_worlds = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class).getConfig()
+                    .getStringList("lands.disabled_worlds");
+
+            if (disabled_worlds != null && disabled_worlds.size() > 0
+                    && disabled_worlds.contains(chunk.getWorld().getName())) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.claim.chunk_disabled_world")));
                 return true;
             }
 
@@ -44,11 +55,15 @@ public class Claim implements CommandExecutor {
 
                 int land_id = (int) LandsManager.getByPlayer(player, "land_id");
 
-                LandRolesManager.create(land_id, "Visitor", 0,
-                        FlagsCalculator.calculate(RoleFlags.PICKUP_ITEMS, RoleFlags.ENTER_LAND));
-                LandRolesManager.create(land_id, "Member", 1,
-                        FlagsCalculator.calculate(RoleFlags.PICKUP_ITEMS, RoleFlags.ENTER_LAND, RoleFlags.BREAK_BLOCKS,
-                                RoleFlags.PLACE_BLOCKS));
+                UltrasClaimProtection plugin = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class);
+
+                List<String> roles_list = plugin.getConfig().getStringList("lands.roles");
+
+                for (int i = 0; i < roles_list.size(); i++) {
+                    int role_permissions = plugin.getConfig().getInt("lands.flags." + roles_list.get(i));
+
+                    LandRolesManager.create(land_id, roles_list.get(i), i, role_permissions);
+                }
             }
 
             int land_id = (int) LandsManager.getByPlayer(player, "land_id");

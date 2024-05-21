@@ -64,6 +64,10 @@ public class ItemGUI {
                 ArrayList<String> lorelist = new ArrayList<String>();
 
                 for (String each : lore) {
+                    if (!each.contains("&")) {
+                        each = "&f" + each;
+                    }
+
                     lorelist.add(ChatColorTranslator.translate(each));
                 }
 
@@ -84,6 +88,88 @@ public class ItemGUI {
                 ArrayList<String> lorelist = new ArrayList<String>();
 
                 for (String each : lore) {
+                    if (!each.contains("&")) {
+                        each = "&f" + each;
+                    }
+
+                    lorelist.add(ChatColorTranslator.translate(each));
+                }
+
+                meta.setLore(lorelist);
+            }
+
+            item.setItemMeta(meta);
+
+            return item;
+        }
+    }
+
+    public static ItemStack getGUIItemSeperatedData(String displayname, List<String> lore, String itemtype, List<List<Object>> replacements) {
+        if (replacements != null) {
+            for (List<Object> replacement : replacements) {
+                String replaced = displayname.replace((String) replacement.get(0), "" + replacement.get(1));
+
+                displayname = replaced;
+            }
+
+            if (lore != null) {
+                List<String> updated_lore = new ArrayList<>(lore);
+
+                for (List<Object> replacement : replacements) {
+                    String target = (String) replacement.get(0);
+                    String replace = "" + replacement.get(1);
+
+                    for (int i = 0; i < updated_lore.size(); i++) {
+                        String line = updated_lore.get(i);
+                        String replaced = line.replace(target, replace);
+
+                        updated_lore.set(i, replaced);
+                    }
+                }
+
+                lore = updated_lore;
+            }
+        }
+
+        if (itemtype.startsWith("HEAD-")) {
+            ItemStack playerhead = getCustomHeadTexture(Arrays.asList(itemtype.split("-")).get(1));
+
+            ItemMeta meta = playerhead.getItemMeta();
+
+            meta.setDisplayName(ChatColorTranslator.translate(displayname));
+
+            if (lore != null) {
+                ArrayList<String> lorelist = new ArrayList<String>();
+
+                for (String each : lore) {
+                    if (!each.contains("&")) {
+                        each = "&f" + each;
+                    }
+
+                    lorelist.add(ChatColorTranslator.translate(each));
+                }
+
+                meta.setLore(lorelist);
+            }
+
+            playerhead.setItemMeta(meta);
+
+            return playerhead;
+        } else {
+            ItemStack item = new ItemStack(Material.getMaterial(itemtype));
+
+            ItemMeta meta = item.getItemMeta();
+
+            meta.setDisplayName(ChatColorTranslator.translate(displayname));
+
+            if (lore != null) {
+                ArrayList<String> lorelist = new ArrayList<String>();
+
+                for (String each : lore) {
+                    if (!each.contains("&")) {
+                        each = "&f" + each;
+                    }
+
                     lorelist.add(ChatColorTranslator.translate(each));
                 }
 
@@ -103,7 +189,7 @@ public class ItemGUI {
         UltrasClaimProtection plugin = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class);
 
         meta.setOwnerProfile(
-                getProfile(plugin.getConfig().getString("textures.url").replace("%texture_url%", texture_url)));
+                getProfile(plugin.getConfig().getString("textures.url").replace("%profile_url%", texture_url)));
         head.setItemMeta(meta);
 
         return head;

@@ -3,7 +3,6 @@ package ultrasclaimprotection.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -14,6 +13,11 @@ import ultrasclaimprotection.commands.subcommands.ClaimList;
 import ultrasclaimprotection.commands.subcommands.MembersAdd;
 import ultrasclaimprotection.commands.subcommands.MembersList;
 import ultrasclaimprotection.commands.subcommands.MembersRemove;
+import ultrasclaimprotection.commands.subcommands.PlayerInformation;
+import ultrasclaimprotection.commands.subcommands.RoleCreate;
+import ultrasclaimprotection.commands.subcommands.RoleDelete;
+import ultrasclaimprotection.commands.subcommands.RolePermissions;
+import ultrasclaimprotection.commands.subcommands.RoleRename;
 import ultrasclaimprotection.commands.subcommands.Unclaim;
 import ultrasclaimprotection.commands.subcommands.View;
 import ultrasclaimprotection.managers.LandRolesManager;
@@ -44,6 +48,9 @@ public class LandsCommand implements TabExecutor {
                     case "claimlist":
                         new ClaimList().onCommand(sender, command, label, args);
                         break;
+                    case "player":
+                        new PlayerInformation().onCommand(sender, command, label, args);
+                        break;
                     default:
                         break;
                 }
@@ -56,6 +63,23 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "remove":
                         new MembersRemove().onCommand(sender, command, label, args);
+                        break;
+                    default:
+                        break;
+                }
+            } else if (args.length > 1 && args[0].equalsIgnoreCase("roles")) {
+                switch (args[1]) {
+                    case "create":
+                        new RoleCreate().onCommand(sender, command, label, args);
+                        break;
+                    case "delete":
+                        new RoleDelete().onCommand(sender, command, label, args);
+                        break;
+                    case "rename":
+                        new RoleRename().onCommand(sender, command, label, args);
+                        break;
+                    case "permissions":
+                        new RolePermissions().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -82,7 +106,15 @@ public class LandsCommand implements TabExecutor {
                 case "members":
                     arraylist.add("add");
                     arraylist.add("remove");
-
+                    break;
+                case "roles":
+                    arraylist.add("create");
+                    arraylist.add("delete");
+                    arraylist.add("rename");
+                    arraylist.add("permissions");
+                    break;
+                case "player":
+                    arraylist = LandsManager.getPlayerNames();
                     break;
             }
 
@@ -90,10 +122,43 @@ public class LandsCommand implements TabExecutor {
         } else if (args.length == 3 && args[0].equalsIgnoreCase("members")) {
             switch (args[1]) {
                 case "add":
-                    arraylist = getOnlinePlayers();
+                    arraylist = LandsManager.getPlayerNames();
                     break;
                 case "remove":
-                    arraylist = getOnlinePlayers();
+                    arraylist = LandsManager.getPlayerNames();
+                    break;
+                default:
+                    break;
+            }
+
+            currentindex = 3;
+        } else if (args.length == 3 && args[0].equalsIgnoreCase("roles")) {
+            switch (args[1]) {
+                case "create":
+                    break;
+                case "delete":
+                    if (LandsManager.containsPlayer((Player) sender)) {
+                        int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
+
+                        arraylist = LandRolesManager.getRoles(land_id);
+                    }
+
+                    break;
+                case "rename":
+                    if (LandsManager.containsPlayer((Player) sender)) {
+                        int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
+
+                        arraylist = LandRolesManager.getRoles(land_id);
+                    }
+
+                    break;
+                case "permissions":
+                    if (LandsManager.containsPlayer((Player) sender)) {
+                        int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
+
+                        arraylist = LandRolesManager.getRoles(land_id);
+                    }
+
                     break;
                 default:
                     break;
@@ -121,19 +186,6 @@ public class LandsCommand implements TabExecutor {
         return filteredlist;
     }
 
-    private static List<String> getOnlinePlayers() {
-        List<String> playernames = new ArrayList<>();
-        Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
-
-        Bukkit.getServer().getOnlinePlayers().toArray(players);
-
-        for (int i = 0; i < players.length; i++) {
-            playernames.add(players[i].getName());
-        }
-
-        return playernames;
-    }
-
     private List<String> getSubcommands() {
         List<String> arraylist = new ArrayList<>();
 
@@ -142,6 +194,8 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("members");
         arraylist.add("view");
         arraylist.add("claimlist");
+        arraylist.add("player");
+        arraylist.add("roles");
 
         return arraylist;
     };

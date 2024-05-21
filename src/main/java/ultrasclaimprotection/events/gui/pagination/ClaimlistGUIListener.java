@@ -1,4 +1,4 @@
-package ultrasclaimprotection.events.gui;
+package ultrasclaimprotection.events.gui.pagination;
 
 import java.util.Comparator;
 import java.util.List;

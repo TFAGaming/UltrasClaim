@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
@@ -53,7 +54,7 @@ public class LandMembersManager {
         }
     }
 
-    public static void create(int land_id, Player player, int role_id) {
+    public static void create(int land_id, OfflinePlayer player, int role_id) {
         String sql = "INSERT INTO land_members ( " +
                 "member_uuid, " +
                 "land_id, " +
@@ -79,7 +80,7 @@ public class LandMembersManager {
         }
     }
 
-    public static void delete(int land_id, Player player) {
+    public static void delete(int land_id, OfflinePlayer player) {
         String sql = "DELETE FROM land_members WHERE land_id = ? AND member_uuid = ?";
 
         try {
@@ -116,7 +117,7 @@ public class LandMembersManager {
         }
     }
 
-    public static boolean contains(int land_id, Player player) {
+    public static boolean contains(int land_id, OfflinePlayer player) {
         boolean value = false;
 
         for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
@@ -201,6 +202,20 @@ public class LandMembersManager {
 
     public static Map<String, List<Object>> getCache() {
         return cache;
+    }
+
+    public static List<String> getPlayerLandsList(OfflinePlayer player) {
+        List<String> lands = new ArrayList<>();
+
+        for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if (((String) data.get(1)).equals(player.getUniqueId().toString())) {
+                lands.add((String) LandsManager.get((int) data.get(2), "land_name"));
+            }
+        }
+
+        return lands;
     }
 
     private static String createCacheKey(int land_id, int member_id) {

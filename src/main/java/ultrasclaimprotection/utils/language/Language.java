@@ -1,6 +1,7 @@
 package ultrasclaimprotection.utils.language;
 
 import java.util.List;
+import java.util.Map;
 
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 
@@ -29,7 +30,17 @@ public class Language {
     }
 
     @SuppressWarnings("unchecked")
+    public static List<Map<?, ?>> getMapList(String path) {
+        return (List<Map<?, ?>>) get(path);
+    }
+
+    @SuppressWarnings("unchecked")
     public static List<String> getList(String path) {
         return (List<String>) get(path);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Object> getListObject(String path) {
+        return (List<Object>) get(path);
     }
 }

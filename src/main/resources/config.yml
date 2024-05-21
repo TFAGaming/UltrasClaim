@@ -1,10 +1,63 @@
+############################################################
+# •------------------------------------------------------• #
+# |                      Database                        | #
+# •------------------------------------------------------• #
+############################################################
+
+# The main database used is SQLite, others are still not supported.
 database:
-  path: "/database.db"
+  path: "/database.db" # The path to the database, must end with it's correct file extension.
 
+############################################################
+# •------------------------------------------------------• #
+# |                      Language                        | #
+# •------------------------------------------------------• #
+############################################################
+
+# The main language file for the plugin. By default, it's always "en-US.yml".
+# The file extension of a language file is not required to provide, because all of them ends with ".yml".
+language: "en_US.yml"
+
+############################################################
+# •------------------------------------------------------• #
+# |                Custom Head Textures                  | #
+# •------------------------------------------------------• #
+############################################################
+
+# This is the default site to load custom head textures. If there is an alternative site, use it and replace the argument for Minecraft URL with "%profile_url%".
+# Here is an example of a Globe head texture, based on "https://textures.minecraft.net/":
+# https://textures.minecraft.net/texture/98a73ccf8dc15a159a06ed7a6c0425e9389b42a9c2fa6e32e95d46357bb15af9
 textures:
-  url: "https://textures.minecraft.net/texture/%texture_url%"
+  url: "https://textures.minecraft.net/texture/%profile_url%"
 
+############################################################
+# •------------------------------------------------------• #
+# |                 Lands Configuration                  | #
+# •------------------------------------------------------• #
+############################################################
 lands:
+  # The list of default roles that should be automatically created when a player claims a chunk for the first time.
+  # WARNING: You must provide at least two roles!
+  roles:
+    - "Visitor"
+    - "Member"
+
+  # Each default roles has it's specific permissions, all based on bitwise operations.
+  # Read README.md for a guide!
+  flags:
+    Visitor: 71303168
+    Member: 91750399
+
+  # The list of disabled worlds, where players CANNOT claim chunks there.
+  # Make sure to use valid world names. If there are no disabled worlds, set the value to null.
+  disabled_worlds:
+    - "minigames"
+    - "pvp"
+    - "world_the_end"
+  
+  # The border colors are basically the particles colors that spawns around a land.
+  # The colors are RGB based: First index is RED, second is GREEN, and third is BLUE.
+  # Default colors: visitor = Red, trusted = Yellow, owner = Green.
   border_colors:
     visitor:
       - 255
@@ -18,3 +71,26 @@ lands:
       - 0
       - 255
       - 0
+
+  # Each group below has some limits:
+  # max_chunks: The maximum chunks that the player can own.
+  # max_members: The maximum members that the player can add for a land.
+  # max_roles: The maximum roles that the player can create.
+  # max_trusted_lands: The maximum number of lands that the player can be trusted in.
+  limits:
+    default: # The limits for the group: default
+      max_chunks: 8
+      max_members: 5
+      max_roles: 3
+      max_trusted_lands: 3
+    vip: # The limits for the group: vip
+      max_chunks: 16
+      max_members: 10
+      max_roles: 6
+      max_trusted_lands: 6
+    owner: # The limits for the group: owner
+      max_chunks: 64
+      max_members: 32
+      max_roles: 16
+      max_trusted_lands: 10
+  

@@ -61,6 +61,8 @@ public class LandClaimlistGUI {
                         Lists.newArrayList(
                                 Lists.newArrayList("%chunk_x%", chunk_x),
                                 Lists.newArrayList("%chunk_z%", chunk_z),
+                                Lists.newArrayList("%location_x%", chunk_x * 16 + 8),
+                                Lists.newArrayList("%location_z%", chunk_z * 16 + 8),
                                 Lists.newArrayList("%chunk_world%", chunk_world),
                                 Lists.newArrayList("%chunk_land%", chunk_land_name),
                                 Lists.newArrayList("%claimed_at%", created_at_formatted)));

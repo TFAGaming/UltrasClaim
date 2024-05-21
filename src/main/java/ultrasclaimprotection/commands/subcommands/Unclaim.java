@@ -22,7 +22,8 @@ public class Unclaim implements CommandExecutor {
             Chunk chunk = player.getLocation().getChunk();
 
             if (!LandChunksManager.contains(chunk)) {
-                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_not_taken")));
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_not_taken")));
                 return true;
             }
 
@@ -34,7 +35,8 @@ public class Unclaim implements CommandExecutor {
             Player chunk_owner = LandChunksManager.getChunkOwner(chunk);
 
             if (!chunk_owner.getUniqueId().equals(player.getUniqueId())) {
-                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_not_owner")));
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_not_owner")));
                 return true;
             }
 

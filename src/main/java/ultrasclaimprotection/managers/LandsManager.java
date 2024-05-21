@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
@@ -210,7 +213,7 @@ public class LandsManager {
         return null;
     }
 
-    public static Object getByPlayer(Player player, String variable) {
+    public static Object getByPlayer(OfflinePlayer player, String variable) {
         for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {
             List<Object> data = entry.getValue();
 
@@ -249,6 +252,30 @@ public class LandsManager {
 
     public static Map<Integer, List<Object>> getCache() {
         return cache;
+    }
+
+    public static List<String> getPlayerUUIDs() {
+        List<String> player_uuids = new ArrayList<>();
+
+        for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            player_uuids.add((String) data.get(3));
+        }
+
+        return player_uuids;
+    }
+
+    public static List<String> getPlayerNames() {
+        List<String> player_names = new ArrayList<>();
+
+        for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            player_names.add(Bukkit.getOfflinePlayer(UUID.fromString((String) data.get(3))).getName());
+        }
+
+        return player_names;
     }
 
     public static void updateLocation(int land_id, Player player) {
