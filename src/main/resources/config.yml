@@ -42,6 +42,8 @@ lands:
     - "Visitor"
     - "Member"
 
+  default_visitor_role: "Visitor"
+
   # Each default roles has it's specific permissions, all based on bitwise operations.
   # Read README.md for a guide!
   flags:

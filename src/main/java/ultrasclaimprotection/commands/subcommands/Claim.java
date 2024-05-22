@@ -62,7 +62,7 @@ public class Claim implements CommandExecutor {
                 for (int i = 0; i < roles_list.size(); i++) {
                     int role_permissions = plugin.getConfig().getInt("lands.flags." + roles_list.get(i));
 
-                    LandRolesManager.create(land_id, roles_list.get(i), i, role_permissions);
+                    LandRolesManager.create(land_id, roles_list.get(i), i > 1 ? 2 : i, role_permissions);
                 }
             }
 

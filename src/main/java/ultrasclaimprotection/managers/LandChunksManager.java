@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
@@ -211,7 +212,7 @@ public class LandChunksManager {
         return count;
     };
 
-    public static Player getChunkOwner(Chunk chunk) {
+    public static OfflinePlayer getChunkOwner(Chunk chunk) {
         if (contains(chunk)) {
             int land_id = (int) get(chunk, "land_id");
 
@@ -246,7 +247,7 @@ public class LandChunksManager {
     }
 
     public static int getPlayerFlagByChunk(Chunk chunk, Player player) {
-        Player chunk_owner = getChunkOwner(chunk);
+        OfflinePlayer chunk_owner = getChunkOwner(chunk);
 
         if (chunk_owner.getUniqueId().equals(player.getUniqueId())) {
             return PlayerFlags.LAND_OWNER;

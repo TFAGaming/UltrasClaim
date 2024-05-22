@@ -1,6 +1,7 @@
 package ultrasclaimprotection.commands.subcommands;
 
 import org.bukkit.Chunk;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +33,7 @@ public class Unclaim implements CommandExecutor {
                 return true;
             }
 
-            Player chunk_owner = LandChunksManager.getChunkOwner(chunk);
+            OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
 
             if (!chunk_owner.getUniqueId().equals(player.getUniqueId())) {
                 player.sendMessage(

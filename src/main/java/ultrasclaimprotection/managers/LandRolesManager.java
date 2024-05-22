@@ -244,6 +244,25 @@ public class LandRolesManager {
         }
     }
 
+    public static void updateFlags(int land_id, int role_id, int flags) {
+        String sql = "UPDATE land_roles SET role_flags=" + flags + " WHERE role_id = ? AND land_id = ?";
+
+        try {
+            Connection connection = UltrasClaimProtection.database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, role_id);
+            statement.setInt(2, land_id);
+
+            statement.execute();
+            statement.close();
+
+            updateCache();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static String createCacheKey(int land_id, int role_id) {
         return land_id + "," + role_id;
     }

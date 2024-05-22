@@ -9,7 +9,7 @@ import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.RolePermissions;
+import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.language.Language;
 
 public class RoleCreate implements CommandExecutor {
@@ -37,7 +37,7 @@ public class RoleCreate implements CommandExecutor {
                 return true;
             }
 
-            LandRolesManager.create(land_id, args[2], 2, FlagsCalculator.calculate(RolePermissions.PICKUP_ITEMS, RolePermissions.ENTER_LAND));
+            LandRolesManager.create(land_id, args[2], 2, FlagsCalculator.calculate(RoleFlags.PICKUP_ITEMS, RoleFlags.ENTER_LAND));
 
             player.sendMessage(
                         ChatColorTranslator.translate(Language.getString("commands.role_create.role_created")));

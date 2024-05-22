@@ -1,6 +1,9 @@
 package ultrasclaimprotection.gui;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,22 +14,19 @@ import com.google.common.collect.Lists;
 
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
-import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.RolePermissions;
+import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.gui.ItemGUI;
 import ultrasclaimprotection.utils.language.Language;
 
 public class RolePermissionsGUI {
+    public static Map<UUID, Integer> cache = new HashMap<UUID, Integer>();
+
     public static void create(Player player, String path, int land_id, int role_id) {
         String title = Language.getString(path + ".title", false).replace("%role_name%", (String) LandRolesManager.get(land_id, role_id, "role_name"));
         Inventory inventory = Bukkit.createInventory(player, 9 * 3, ChatColorTranslator.translate(title));
 
-        System.out.println(FlagsCalculator.calculate(RolePermissions.PICKUP_ITEMS, RolePermissions.ENTER_LAND, RolePermissions.BREAK_BLOCKS,
-                                RolePermissions.PLACE_BLOCKS));
-        System.out.println(LandRolesManager.get(land_id, role_id, "role_flags"));
-
         int role_flags = (int) LandRolesManager.get(land_id, role_id, "role_flags");
-        List<List<Object>> data = RolePermissions.getAsList(role_flags);
+        List<List<Object>> data = RoleFlags.getAsList(role_flags);
 
         for (List<Object> each : data) {
             String permission = (String) each.get(0);
@@ -48,5 +48,6 @@ public class RolePermissionsGUI {
         }
 
         player.openInventory(inventory);
+        cache.put(player.getUniqueId(), role_id);
     }
 }

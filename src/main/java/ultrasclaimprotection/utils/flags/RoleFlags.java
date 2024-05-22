@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class RolePermissions {
+public class RoleFlags {
     public static final int BREAK_BLOCKS = 1;
     public static final int PLACE_BLOCKS = 1 << 1;
     public static final int CONTAINERS = 1 << 2;
@@ -75,11 +75,23 @@ public class RolePermissions {
         }
     }
 
+    public static String from(int flag) {
+        List<String> allpermissions = listPermissions();
+
+        for (int i = 0; i < allpermissions.size(); i++) {
+            int value = valueOf(allpermissions.get(i));
+
+            if (value == flag) {
+                return allpermissions.get(i);
+            }
+        }
+
+        return "UNKNOWN";
+    }
+
     public static List<List<Object>> getAsList(int flags) {
         List<String> allpermissions = listPermissions();
         List<List<Object>> data = new ArrayList<List<Object>>();
-
-        System.out.println(flags);
 
         for (String permission : allpermissions) {
             int value = valueOf(permission);

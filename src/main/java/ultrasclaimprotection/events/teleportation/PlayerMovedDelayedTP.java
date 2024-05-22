@@ -11,7 +11,7 @@ import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.teleportation.DelayedTeleport;
 
-public class PlayerMoved implements Listener {
+public class PlayerMovedDelayedTP implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

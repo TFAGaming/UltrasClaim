@@ -78,7 +78,7 @@ public class LandsCommand implements TabExecutor {
                     case "rename":
                         new RoleRename().onCommand(sender, command, label, args);
                         break;
-                    case "permissions":
+                    case "flags":
                         new RolePermissions().onCommand(sender, command, label, args);
                         break;
                     default:
@@ -111,7 +111,7 @@ public class LandsCommand implements TabExecutor {
                     arraylist.add("create");
                     arraylist.add("delete");
                     arraylist.add("rename");
-                    arraylist.add("permissions");
+                    arraylist.add("flags");
                     break;
                 case "player":
                     arraylist = LandsManager.getPlayerNames();
@@ -152,7 +152,7 @@ public class LandsCommand implements TabExecutor {
                     }
 
                     break;
-                case "permissions":
+                case "flags":
                     if (LandsManager.containsPlayer((Player) sender)) {
                         int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
 

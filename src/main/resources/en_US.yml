@@ -288,7 +288,7 @@ items:
         - "&7Value: %permission_value%"
       item: "ZOMBIE_HEAD"
     TRADE_VILLAGERS:
-      displayname: "&9Trade With Villagers"
+      displayname: "&9Trade with Villagers"
       lore:
         - "Allow players to trade with Villagers?"
         - "&7Value: %permission_value%"
@@ -303,7 +303,6 @@ items:
       displayname: "&9Vehicles"
       lore:
         - "Allow players to use vehicles?"
-        - "If enabled, players have the ability to ride vehicles like Horses, Minecarts... etc."
         - "&7Value: %permission_value%"
       item: "MINECART"
     TELEPORT_SPAWN:
@@ -319,8 +318,8 @@ items:
       displayname: "&9Enter Land"
       lore:
         - "Allow players to enter to your land?"
-        - "If disabled, every player on the server cannot enter to your land."
-        - "&eNote: If you have trusted members, keep this permission enabled."
+        - "&eNote: If you have trusted members, keep this permission"
+        - "&eenabled for specific roles."
         - "&7Value: %permission_value%"
       item: "IRON_BOOTS"
     PVP:
@@ -339,15 +338,17 @@ items:
       displayname: "&9Throw Potions"
       lore:
         - "Allow players to throw lingering and splash potions?"
-        - "&eNote: If PVP flag is disabled and this permission is enabled, players have"
-        - "&ethe ability to bypass the PVP flag by throwing Instant Damage splash potions."
+        - "&eNote: Instant Damage potions might bypass the PVP flag."
         - "&7Value: %permission_value%"
       item: "SPLASH_POTION"
     PICKUP_ITEMS:
       displayname: "&9Pick up items"
       lore:
         - "Allow players to pick up items?"
-        - "If enabled, players cannot pick up items from the ground and throw items from"
-        - "their inventories."
+        - "If enabled, players cannot pick up items from the"
+        - "ground and throw items from inventories."
         - "&7Value: %permission_value%"
       item: "SUNFLOWER"
+
+permissions:
+  role_permissions: "&8[&9UltrasClaim&8] &cYou do not the permission to do this! &8(Flag: %permission%)"
