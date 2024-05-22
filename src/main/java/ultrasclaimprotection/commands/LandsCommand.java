@@ -19,7 +19,7 @@ import ultrasclaimprotection.commands.subcommands.RoleDelete;
 import ultrasclaimprotection.commands.subcommands.RolePermissions;
 import ultrasclaimprotection.commands.subcommands.RoleRename;
 import ultrasclaimprotection.commands.subcommands.Unclaim;
-import ultrasclaimprotection.commands.subcommands.View;
+import ultrasclaimprotection.commands.subcommands.LandView;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 
@@ -43,7 +43,7 @@ public class LandsCommand implements TabExecutor {
                         new MembersList().onCommand(sender, command, label, args);
                         break;
                     case "view":
-                        new View().onCommand(sender, command, label, args);
+                        new LandView().onCommand(sender, command, label, args);
                         break;
                     case "claimlist":
                         new ClaimList().onCommand(sender, command, label, args);

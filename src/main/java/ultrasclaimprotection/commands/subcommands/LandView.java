@@ -11,7 +11,7 @@ import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
 
-public class View implements CommandExecutor {
+public class LandView implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
