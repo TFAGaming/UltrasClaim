@@ -37,7 +37,7 @@ public class RolePermissionsGUI {
 
             ItemStack item = ItemGUI.getGUIItemSeperatedData(
                     Language.getString(path + ".items.displayname", false),
-                    Language.getList("items.role_permissions." + permission + ".lore"),
+                    Language.getListString("items.role_permissions." + permission + ".lore"),
                     Language.getString("items.role_permissions." + permission + ".item", false), Lists.newArrayList(
                         Lists.newArrayList("%item_displayname%", Language.getString("items.role_permissions." + permission + ".displayname", false)),
                         Lists.newArrayList("%permission%", permission.toLowerCase()),

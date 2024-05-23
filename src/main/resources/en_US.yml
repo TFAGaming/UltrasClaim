@@ -161,6 +161,13 @@ gui:
       lore: null # Go to "items.role_permissions.[permission].lore" and configure each role permission lore!
       item: null # Go to "items.role_permissions.[permission].item" and configure each role permission item type!
 
+  natural_flags:
+    title: "&9Natural Flags"
+    items:
+      displayname: "%item_displayname% (&8%flag%&9)"
+      lore: null # Go to "items.natural_flags.[permission].lore" and configure each role permission lore!
+      item: null # Go to "items.natural_flags.[permission].item" and configure each role permission item type!
+
 items:
   role_permissions:
     BREAK_BLOCKS:
@@ -349,6 +356,82 @@ items:
         - "ground and throw items from inventories."
         - "&7Value: %permission_value%"
       item: "SUNFLOWER"
+
+  natural_flags:
+    PASSIVE_ENTITIES_SPAWN:
+      displayname: "&9Passive Entities Spawn"
+      lore:
+        - "Allow passive entities to spawn naturally?"
+        - "Passive mobs are Pigs, Cows... etc, which never attacks players."
+        - "&7Value: %flag_value%"
+      item: "HEAD-84e5cdb0edb362cb454586d1fd0ebe971423f015b0b1bfc95f8d5af8afe7e810"
+    HOSTILE_ENTITIES_SPAWN:
+      displayname: "&9Hostile Entities Spawn"
+      lore:
+        - "Allow hostile entities to spawn naturally?"
+        - "Hostile mobs are Zombies, skeletons... etc, which always attacks players."
+        - "&7Value: %flag_value%"
+      item: "SPAWNER"
+    ENTITIES_GRIEF:
+      displayname: "&9Entities Grief"
+      lore:
+        - "Allow entities to grief inside of your land?"
+        - "&7Value: %flag_value%"
+      item: "HEAD-9689c200980e4c54adcfbbdad492c1d2edbd92366aabf89724ed19930cb5b6e2"
+    ENTITIES_DAMAGE_ENTITIES:
+      displayname: "&9Entities Damage Entities"
+      lore:
+        - "Allow entities to damage other entities?"
+        - "If enabled, Creepers might kill your animals by an explosion."
+        - "&7Value: %flag_value%"
+      item: "IRON_SWORD"
+    LEAVES_DECAY:
+      displayname: "&9Leaves Decay"
+      lore:
+        - "Allow leaves to decay?"
+        - "&7Value: %flag_value%"
+      item: "VINE"
+    FIRE_SPREAD:
+      displayname: "&9Fire Spread"
+      lore:
+        - "Allow fire to spread in your land?"
+        - "&cWarning: If enabled, players might start fire outside of"
+        - "&cyour land and the fire will eventually spread inside."
+        - "&7Value: %flag_value%"
+      item: "FLINT_AND_STEEL"
+    LIQUID_FLOW:
+      displayname: "&9Liquid Flow"
+      lore:
+        - "Allow liquids to enter to your land?"
+        - "The liquids are Water and Lava, only."
+        - "&7Value: %flag_value%"
+      item: "WATER_BUCKET"
+    EXPLOSIONS_DAMAGE:
+      displayname: "&9Explosions Damage"
+      lore:
+        - "Allow any type of explosion to damage blocks in your land?"
+        - "&cWarning: If enabled, players have the ability to make TNT cannons"
+        - "&coutside of your land and then starts griefing your land."
+        - "&7Value: %flag_value%"
+      item: "TNT"
+    WILDERNESS_PISTONS:
+      displayname: "&9Wilderness Pistons"
+      lore:
+        - "Allow wilderness pistons to push/pull blocks to/from your land?"
+        - "&7Value: %flag_value%"
+      item: "PISTON"
+    WILDERNESS_DISPENSERS:
+      displayname: "&9Wilderness Dispensers"
+      lore:
+        - "Allow wilderness dispensers to place certain blocks inside of your land?"
+        - "&7Value: %flag_value%"
+      item: "DISPENSER"
+    PLANT_GROWTH:
+      displayname: "&9Plant Growth"
+      lore:
+        - "Allow plants to grow?"
+        - "&7Value: %flag_value%"
+      item: "OAK_SAPLING"
 
 permissions:
   role_permissions: "&8[&9UltrasClaim&8] &cYou do not the permission to do this! &8(Flag: %permission%)"

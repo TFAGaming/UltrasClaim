@@ -17,7 +17,10 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -25,11 +28,8 @@ import org.bukkit.event.player.PlayerTakeLecternBookEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.sqlite.util.StringUtils;
 
 import ultrasclaimprotection.managers.LandChunksManager;
-import ultrasclaimprotection.managers.LandMembersManager;
-import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.LimitedMessage;
 import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.player.PlayerPermissions;
@@ -116,6 +116,42 @@ public class BlocksProtectionListener implements Listener {
     }
 
     @EventHandler
+    public void onBucketEmpty(PlayerBucketEmptyEvent event) {
+        Chunk chunk = event.getBlockClicked().getRelative(event.getBlockFace()).getChunk();
+        Player player = event.getPlayer();
+
+        if (player != null && LandChunksManager.contains(chunk) && !PlayerPermissions.isOperator(player)) {
+            int land_id = (int) LandChunksManager.get(chunk, "land_id");
+            OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
+
+            if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
+                    && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.PLACE_BLOCKS)) {
+                event.setCancelled(true);
+
+                LimitedMessage.send(player, RoleFlags.PLACE_BLOCKS, chunk);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerBucketFill(PlayerBucketFillEvent event) {
+        Chunk chunk = event.getBlockClicked().getRelative(event.getBlockFace()).getChunk();
+        Player player = event.getPlayer();
+
+        if (player != null && LandChunksManager.contains(chunk) && !PlayerPermissions.isOperator(player)) {
+            int land_id = (int) LandChunksManager.get(chunk, "land_id");
+            OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
+
+            if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
+                    && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.BREAK_BLOCKS)) {
+                event.setCancelled(true);
+
+                LimitedMessage.send(player, RoleFlags.BREAK_BLOCKS, chunk);
+            }
+        }
+    }
+
+    @EventHandler
     public void onBreakCrop(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block clickedblock = event.getClickedBlock();
@@ -164,7 +200,7 @@ public class BlocksProtectionListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
         Chunk chunk;
@@ -410,19 +446,38 @@ public class BlocksProtectionListener implements Listener {
 
         if (player == null) {
             event.setCancelled(true);
+        } else {
+            if (LandChunksManager.contains(chunk) && !PlayerPermissions.isOperator(player)) {
+                int land_id = (int) LandChunksManager.get(chunk, "land_id");
+                OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
 
-            return;
+                if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
+                        && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.IGNITE)) {
+                    event.setCancelled(true);
+
+                    LimitedMessage.send(player, RoleFlags.IGNITE, chunk);
+                }
+            }
         }
+    }
 
-        if (player != null && LandChunksManager.contains(chunk) && !PlayerPermissions.isOperator(player)) {
-            int land_id = (int) LandChunksManager.get(chunk, "land_id");
-            OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
+    @EventHandler
+    public void onHangingBreakByEntity(HangingBreakByEntityEvent event) {
+        if (event.getRemover() instanceof Player && event.getEntity().getType().name().contains("PAINTING")
+                || event.getEntity().getType().name().contains("ITEM_FRAME")) {
+            Player player = (Player) event.getRemover();
+            Chunk chunk = event.getEntity().getLocation().getChunk();
 
-            if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
-                    && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.IGNITE)) {
-                event.setCancelled(true);
+            if (player != null && LandChunksManager.contains(chunk) && !PlayerPermissions.isOperator(player)) {
+                int land_id = (int) LandChunksManager.get(chunk, "land_id");
+                OfflinePlayer chunk_owner = LandChunksManager.getChunkOwner(chunk);
 
-                LimitedMessage.send(player, RoleFlags.IGNITE, chunk);
+                if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
+                        && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.BREAK_BLOCKS)) {
+                    event.setCancelled(true);
+
+                    LimitedMessage.send(player, RoleFlags.BREAK_BLOCKS, chunk);
+                }
             }
         }
     }

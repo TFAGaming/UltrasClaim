@@ -18,6 +18,7 @@ import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
+import ultrasclaimprotection.utils.flags.NaturalFlags;
 import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.gui.ItemGUI;
 import ultrasclaimprotection.utils.language.Language;
@@ -44,6 +45,10 @@ public class NormalGUIListener implements Listener {
                 int role_flags = (int) LandRolesManager.get(land_id, role_id, "role_flags");
                 List<List<Object>> data = RoleFlags.getAsList(role_flags);
 
+                if (slot > data.size() - 1) {
+                    return;
+                }
+
                 String permission = (String) data.get(slot).get(0);
                 boolean current_value = (boolean) data.get(slot).get(1);
 
@@ -59,6 +64,38 @@ public class NormalGUIListener implements Listener {
                 LandRolesManager.updateFlags(land_id, role_id, new_flags);
 
                 replaceItemRolePermissionsGUI(event.getInventory(), land_id, role_id, permission, new_value, slot);
+            }
+        } else if (inventory_title.startsWith(ChatColorTranslator
+                .translate(Language.getString("gui.natural_flags.title", false)))) {
+            event.setCancelled(true);
+
+            if (!event.getClickedInventory().getType().equals(InventoryType.PLAYER)) {
+                int slot = event.getSlot();
+
+                int land_id = (int) LandsManager.getByPlayer(player, "land_id");
+
+                int natural_flags = (int) LandsManager.get(land_id, "natural_flags");
+                List<List<Object>> data = NaturalFlags.getAsList(natural_flags);
+
+                if (slot > data.size() - 1) {
+                    return;
+                }
+
+                String flag = (String) data.get(slot).get(0);
+                boolean current_value = (boolean) data.get(slot).get(1);
+
+                boolean new_value = !current_value;
+                int new_flags = 0;
+
+                if (new_value) {
+                    new_flags = FlagsCalculator.calculate(natural_flags, NaturalFlags.valueOf(flag));
+                } else {
+                    new_flags = FlagsCalculator.removeFlag(natural_flags, NaturalFlags.valueOf(flag));
+                }
+
+                LandsManager.updateNaturalFlags(land_id, new_flags);
+
+                replaceItemNaturalFlagsGUI(event.getInventory(), land_id, flag, new_value, slot);
             }
         }
     }
@@ -79,12 +116,29 @@ public class NormalGUIListener implements Listener {
 
         ItemStack item = ItemGUI.getGUIItemSeperatedData(
                 Language.getString("gui.role_permissions.items.displayname", false),
-                Language.getList("items.role_permissions." + permission + ".lore"),
+                Language.getListString("items.role_permissions." + permission + ".lore"),
                 Language.getString("items.role_permissions." + permission + ".item", false), Lists.newArrayList(
                         Lists.newArrayList("%item_displayname%",
                                 Language.getString("items.role_permissions." + permission + ".displayname", false)),
                         Lists.newArrayList("%permission%", permission.toLowerCase()),
                         Lists.newArrayList("%permission_value%", value_string)));
+
+        inventory.setItem(slot, item);
+    }
+
+    private static void replaceItemNaturalFlagsGUI(Inventory inventory, int land_id, String flag,
+            boolean new_value, int slot) {
+        String value_string = new_value ? Language.getString("general.variables.enabled", false)
+                : Language.getString("general.variables.disabled", false);
+
+        ItemStack item = ItemGUI.getGUIItemSeperatedData(
+                Language.getString("gui.natural_flags.items.displayname", false),
+                Language.getListString("items.natural_flags." + flag + ".lore"),
+                Language.getString("items.natural_flags." + flag + ".item", false), Lists.newArrayList(
+                        Lists.newArrayList("%item_displayname%",
+                                Language.getString("items.natural_flags." + flag + ".displayname", false)),
+                        Lists.newArrayList("%flag%", flag.toLowerCase()),
+                        Lists.newArrayList("%flag_value%", value_string)));
 
         inventory.setItem(slot, item);
     }

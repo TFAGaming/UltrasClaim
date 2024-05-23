@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.NaturalFlags;
 
 public class LandsManager {
     private static final Map<Integer, List<Object>> cache = new HashMap<>();
@@ -70,7 +69,7 @@ public class LandsManager {
         }
     }
 
-    public static void create(String land_name, Player player) {
+    public static void create(String land_name, Player player, int flags) {
         String sql = "INSERT INTO lands ( " +
                 "land_name, " +
                 "land_description, " +
@@ -96,11 +95,7 @@ public class LandsManager {
             statement.setDouble(6, player.getLocation().getZ());
             statement.setString(7, player.getLocation().getWorld().getName());
             statement.setDouble(8, player.getLocation().getYaw());
-            statement.setInt(9, FlagsCalculator.calculate(
-                    NaturalFlags.PASSIVE_ENTITIES_SPAWN,
-                    NaturalFlags.HOSTILE_ENTITIES_SPAWN,
-                    NaturalFlags.PLANT_GROWTH,
-                    NaturalFlags.LEAVES_DECAY));
+            statement.setInt(9, flags);
             statement.setLong(10, System.currentTimeMillis());
 
             statement.execute();
@@ -316,5 +311,11 @@ public class LandsManager {
         }
 
         return;
+    }
+
+    public static boolean isFlagSet(int land_id, int flag) {
+        int flags = (int) get(land_id, "natural_flags");
+
+        return FlagsCalculator.isFlagSet(flags, flag);
     }
 }

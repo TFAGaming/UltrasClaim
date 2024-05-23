@@ -8,6 +8,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ultrasclaimprotection.commands.LandsCommand;
 import ultrasclaimprotection.database.Database;
 import ultrasclaimprotection.events.chunks.BlocksProtectionListener;
+import ultrasclaimprotection.events.chunks.EntitiesProtectionListener;
+import ultrasclaimprotection.events.chunks.EnvironmentProtectionListener;
 import ultrasclaimprotection.events.gui.NormalGUIListener;
 import ultrasclaimprotection.events.gui.PaginationGUIListener;
 import ultrasclaimprotection.events.teleportation.PlayerMovedDelayedTP;
@@ -60,6 +62,8 @@ public class UltrasClaimProtection extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new NormalGUIListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMovedDelayedTP(), this);
 		getServer().getPluginManager().registerEvents(new BlocksProtectionListener(), this);
+		getServer().getPluginManager().registerEvents(new EnvironmentProtectionListener(), this);
+		getServer().getPluginManager().registerEvents(new EntitiesProtectionListener(), this);
 
 		getCommand("lands").setExecutor(new LandsCommand());
         getCommand("land").setExecutor(new LandsCommand());

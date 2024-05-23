@@ -13,6 +13,7 @@ import ultrasclaimprotection.commands.subcommands.ClaimList;
 import ultrasclaimprotection.commands.subcommands.MembersAdd;
 import ultrasclaimprotection.commands.subcommands.MembersList;
 import ultrasclaimprotection.commands.subcommands.MembersRemove;
+import ultrasclaimprotection.commands.subcommands.NaturalFlags;
 import ultrasclaimprotection.commands.subcommands.PlayerInformation;
 import ultrasclaimprotection.commands.subcommands.RoleCreate;
 import ultrasclaimprotection.commands.subcommands.RoleDelete;
@@ -50,6 +51,9 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "player":
                         new PlayerInformation().onCommand(sender, command, label, args);
+                        break;
+                    case "nature":
+                        new NaturalFlags().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -196,6 +200,7 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("claimlist");
         arraylist.add("player");
         arraylist.add("roles");
+        arraylist.add("nature");
 
         return arraylist;
     };

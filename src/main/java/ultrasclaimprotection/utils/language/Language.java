@@ -35,7 +35,7 @@ public class Language {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<String> getList(String path) {
+    public static List<String> getListString(String path) {
         return (List<String>) get(path);
     }
 

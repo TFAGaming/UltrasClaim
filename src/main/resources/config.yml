@@ -46,9 +46,13 @@ lands:
 
   # Each default roles has it's specific permissions, all based on bitwise operations.
   # Read README.md for a guide!
-  flags:
+  role_flags:
     Visitor: 71303168
     Member: 91750399
+  
+  # When a player creates a new land, it has it's specific natural flags, all based on bitwise operations.
+  # Read README.md for a guide!
+  natural_flags: 1043
 
   # The list of disabled worlds, where players CANNOT claim chunks there.
   # Make sure to use valid world names. If there are no disabled worlds, set the value to null.

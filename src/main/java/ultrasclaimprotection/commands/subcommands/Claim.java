@@ -51,16 +51,18 @@ public class Claim implements CommandExecutor {
                     return true;
                 }
 
-                LandsManager.create(args[1], player);
+                UltrasClaimProtection plugin = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class);
+
+                int natural_flags = plugin.getConfig().getInt("lands.natural_flags");
+
+                LandsManager.create(args[1], player, natural_flags);
 
                 int land_id = (int) LandsManager.getByPlayer(player, "land_id");
-
-                UltrasClaimProtection plugin = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class);
 
                 List<String> roles_list = plugin.getConfig().getStringList("lands.roles");
 
                 for (int i = 0; i < roles_list.size(); i++) {
-                    int role_permissions = plugin.getConfig().getInt("lands.flags." + roles_list.get(i));
+                    int role_permissions = plugin.getConfig().getInt("lands.role_flags." + roles_list.get(i));
 
                     LandRolesManager.create(land_id, roles_list.get(i), i > 1 ? 2 : i, role_permissions);
                 }

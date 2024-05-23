@@ -24,7 +24,7 @@ public class ItemGUI {
 
     public static ItemStack getGUIItem(String path, List<List<Object>> replacements) {
         String displayname = Language.getString(path + ".displayname", false);
-        List<String> lore = Language.getList(path + ".lore");
+        List<String> lore = Language.getListString(path + ".lore");
         String itemtype = Language.getString(path + ".item", false);
 
         if (replacements != null) {
@@ -78,7 +78,7 @@ public class ItemGUI {
 
             return playerhead;
         } else {
-            ItemStack item = new ItemStack(Material.getMaterial(itemtype));
+            ItemStack item = new ItemStack(Material.getMaterial(itemtype) == null ? Material.BARRIER : Material.getMaterial(itemtype));
 
             ItemMeta meta = item.getItemMeta();
 
@@ -156,7 +156,7 @@ public class ItemGUI {
 
             return playerhead;
         } else {
-            ItemStack item = new ItemStack(Material.getMaterial(itemtype));
+            ItemStack item = new ItemStack(Material.getMaterial(itemtype) == null ? Material.BARRIER : Material.getMaterial(itemtype));
 
             ItemMeta meta = item.getItemMeta();
 
