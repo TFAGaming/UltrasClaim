@@ -88,7 +88,7 @@ public class LandsManager {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, land_name);
-            statement.setString(2, "Owned by " + player.getName());
+            statement.setString(2, UltrasClaimProtection.getPlugin(UltrasClaimProtection.class).getConfig().getString("lands.default_description").replace("%player_name%", player.getName()));
             statement.setString(3, player.getUniqueId().toString());
             statement.setDouble(4, player.getLocation().getX());
             statement.setDouble(5, player.getLocation().getY());
@@ -245,6 +245,43 @@ public class LandsManager {
         return null;
     }
 
+    public static Object getByLandName(String land_name, String variable) {
+        for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if (((String) data.get(1)).equalsIgnoreCase(land_name)) {
+                switch (variable) {
+                    case "land_id":
+                        return data.get(0);
+                    case "land_name":
+                        return data.get(1);
+                    case "land_description":
+                        return data.get(2);
+                    case "owner_uuid":
+                        return data.get(3);
+                    case "location_x":
+                        return data.get(4);
+                    case "location_y":
+                        return data.get(5);
+                    case "location_z":
+                        return data.get(6);
+                    case "location_world":
+                        return data.get(7);
+                    case "location_yaw":
+                        return data.get(8);
+                    case "natural_flags":
+                        return data.get(9);
+                    case "created_at":
+                        return data.get(10);
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public static Map<Integer, List<Object>> getCache() {
         return cache;
     }
@@ -271,6 +308,18 @@ public class LandsManager {
         }
 
         return player_names;
+    }
+
+    public static List<String> getListLandNames() {
+        List<String> land_names = new ArrayList<>();
+
+        for (Map.Entry<Integer, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            land_names.add((String) data.get(1));
+        }
+
+        return land_names;
     }
 
     public static void updateLocation(int land_id, Player player) {

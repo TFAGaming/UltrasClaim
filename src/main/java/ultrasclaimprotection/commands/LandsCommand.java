@@ -10,8 +10,10 @@ import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.commands.subcommands.Claim;
 import ultrasclaimprotection.commands.subcommands.ClaimList;
+import ultrasclaimprotection.commands.subcommands.LandInformation;
 import ultrasclaimprotection.commands.subcommands.MembersAdd;
 import ultrasclaimprotection.commands.subcommands.MembersList;
+import ultrasclaimprotection.commands.subcommands.MembersPosition;
 import ultrasclaimprotection.commands.subcommands.MembersRemove;
 import ultrasclaimprotection.commands.subcommands.NaturalFlags;
 import ultrasclaimprotection.commands.subcommands.PlayerInformation;
@@ -55,6 +57,9 @@ public class LandsCommand implements TabExecutor {
                     case "nature":
                         new NaturalFlags().onCommand(sender, command, label, args);
                         break;
+                    case "info":
+                        new LandInformation().onCommand(sender, command, label, args);
+                        break;
                     default:
                         break;
                 }
@@ -67,6 +72,9 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "remove":
                         new MembersRemove().onCommand(sender, command, label, args);
+                        break;
+                    case "position":
+                        new MembersPosition().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -110,6 +118,7 @@ public class LandsCommand implements TabExecutor {
                 case "members":
                     arraylist.add("add");
                     arraylist.add("remove");
+                    arraylist.add("position");
                     break;
                 case "roles":
                     arraylist.add("create");
@@ -120,6 +129,9 @@ public class LandsCommand implements TabExecutor {
                 case "player":
                     arraylist = LandsManager.getPlayerNames();
                     break;
+                case "info":
+                    arraylist = LandsManager.getListLandNames();
+                    break;
             }
 
             currentindex = 2;
@@ -129,6 +141,9 @@ public class LandsCommand implements TabExecutor {
                     arraylist = LandsManager.getPlayerNames();
                     break;
                 case "remove":
+                    arraylist = LandsManager.getPlayerNames();
+                    break;
+                case "position":
                     arraylist = LandsManager.getPlayerNames();
                     break;
                 default:
@@ -169,7 +184,7 @@ public class LandsCommand implements TabExecutor {
             }
 
             currentindex = 3;
-        } else if (args.length == 4 && args[0].equalsIgnoreCase("members") && args[1].equalsIgnoreCase("add")) {
+        } else if (args.length == 4 && args[0].equalsIgnoreCase("members") && (args[1].equalsIgnoreCase("add") || args[1].equalsIgnoreCase("position"))) {
             if (LandsManager.containsPlayer((Player) sender)) {
                 int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
 
@@ -201,6 +216,7 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("player");
         arraylist.add("roles");
         arraylist.add("nature");
+        arraylist.add("info");
 
         return arraylist;
     };

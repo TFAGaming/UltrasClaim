@@ -15,16 +15,13 @@ import com.google.common.collect.Lists;
 
 import ultrasclaimprotection.managers.LandMembersManager;
 import ultrasclaimprotection.managers.LandRolesManager;
-import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.gui.ItemGUI;
 import ultrasclaimprotection.utils.gui.PaginationGUI;
 import ultrasclaimprotection.utils.language.Language;
 
 public class LandMembersGUI {
-    public static void create(Player player) {
-        int land_id = (int) LandsManager.getByPlayer(player, "land_id");
-
+    public static void create(Player player, int land_id) {
         List<List<Object>> land_members = LandMembersManager.getListLandMembers(land_id);
 
         land_members.sort(Comparator.comparingLong((List<Object> list) -> (long) list.get(2)));

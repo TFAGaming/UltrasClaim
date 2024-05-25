@@ -1,6 +1,7 @@
 package ultrasclaimprotection.events.gui;
 
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.common.collect.Lists;
 
+import ultrasclaimprotection.commands.subcommands.LandInformation;
+import ultrasclaimprotection.gui.LandMembersGUI;
 import ultrasclaimprotection.gui.RolePermissionsGUI;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
@@ -97,6 +100,30 @@ public class NormalGUIListener implements Listener {
 
                 replaceItemNaturalFlagsGUI(event.getInventory(), land_id, flag, new_value, slot);
             }
+        } else if (inventory_title.startsWith(ChatColorTranslator
+                .translate(Language.getString("gui.land_information.title", false)))) {
+            event.setCancelled(true);
+
+            if (!event.getClickedInventory().getType().equals(InventoryType.PLAYER)) {
+                int slot = event.getSlot();
+
+                List<Map<?, ?>> items = (List<Map<?, ?>>) Language.getMapList("gui.land_information.items");
+
+                for (Map<?, ?> item : items) {
+                    int item_slot = (int) item.get("slot");
+                    Object item_action_object = item.get("action");
+
+                    if (item_slot == slot && item_action_object != null) {
+                        if ((int) item_action_object == 1 && LandInformation.cache.containsKey(player.getUniqueId())) {
+                            int land_id = LandInformation.cache.get(player.getUniqueId());
+
+                            event.getView().close();
+
+                            LandMembersGUI.create(player, land_id);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -106,6 +133,10 @@ public class NormalGUIListener implements Listener {
 
         if (RolePermissionsGUI.cache.containsKey(player.getUniqueId())) {
             RolePermissionsGUI.cache.remove(player.getUniqueId());
+        }
+
+        if (LandInformation.cache.containsKey(player.getUniqueId())) {
+            LandInformation.cache.remove(player.getUniqueId());
         }
     }
 

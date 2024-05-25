@@ -10,7 +10,12 @@ general:
   variables:
     enabled: "&a✔ Enabled &r"
     disabled: "&c✘ Disabled &r"
+    player_online: "&aOnline"
+    player_offline: "&cOffline"
     null: "&cNone &r"
+  chunk_entry:
+    claimed: "&aWelcome to &6%land_name% &7| &r%land_description%"
+    unclaimed: "&aYou are now in &2Wilderness&a!"
 
 commands:
   prefix: "&8[&9UltrasClaim&8] &r"
@@ -33,10 +38,15 @@ commands:
     chunk_unclaimed: "&aYou have successfully unclaimed this chunk."
     land_deleted: "&eYour land was deleted because there are no chunks to maintain it."
 
+  land_information:
+    land_arg_null: "&cYou must provide the land name."
+    land_null: "&cThis land name was not found."
+
   member_add:
     land_null: "&cYou must create a land to manage members."
     player_arg_null: "&cYou must provide the player name."
     player_null: "&cThis player name was not found."
+    player_equal_owner: "&cYou are the owner of this land."
     player_trusted: "&cThis player is already been trusted in this land."
     role_arg_null: "&cYou must provide the role name."
     role_null: "&cThis role name was not found."
@@ -44,6 +54,16 @@ commands:
 
   member_list:
     land_null: "&cYou must create a land to manage members."
+
+  member_position:
+    land_null: "&cYou must create a land to manage members."
+    player_arg_null: "&cYou must provide the player name."
+    player_null: "&cThis player name was not found."
+    player_not_trusted: "&cThis player is not trusted in this land."
+    role_arg_null: "&cYou must provide the role name."
+    role_null: "&cThis role name was not found."
+    role_first_priority: "&cThis role is a Visitor role, land members cannot be marked as visitors."
+    player_updated_position: "&aSuccessfully updated the player role position."
 
   member_remove:
     land_null: "&cYou must create a land to manage members."
@@ -68,6 +88,7 @@ commands:
     role_arg_null: "&cYou must provide a role name."
     role_null: "&cThis role name does not exist."
     role_undeletable: "&cThis role cannot be deleted."
+    trusted_player_has_role: "&cOne of your land members has this role, please change the player's role position and then delete the role!"
     role_deleted: "&aSuccessfully deleted the role."
 
   role_permissions:
@@ -145,14 +166,41 @@ gui:
         displayname: "&9Player: &e%player_name%"
         lore:
           - "&aLast seen: &7%player_seen_date%"
+          - "&aStatus: &r%player_status%"
           - "&aPing: &7%player_ping%ms"
-          - "&aOwner of the land: &7%player_land%"
+          - "&aLand Owner: &7%player_land%"
         item: "HEAD-d1d2b7dd66ffd86ad4709927b175e83f1a9e10fbc864b2390403708f39d8efd8"
+        action: null
       - slot: 15
         displayname: "&9Joined lands"
         lore:
           - "&6%player_lands_list%"
         item: "HEAD-e19997593f2c592b9fbd4f15ead1673b76f519d7ab3efa15edd19448d1a20bfc"
+        action: null
+
+  land_information:
+    title: "&9Land Information"
+    size: 27
+    items:
+      - slot: 11
+        displayname: "&9Land: &e%land_name%"
+        lore:
+          - "&aID: &f%land_id%"
+          - "&aChunks: &f%land_chunks%"
+          - "&aCreated at: &f%land_created_at%"
+        item: "HEAD-35747010d84aa56483b75f6243d94f34c534603584b2cc68a45bf365840105fd"
+        action: null
+      - slot: 13
+        displayname: "&9Owner: &c%land_owner%"
+        lore: null
+        item: "HEAD-5d64c2f2f232f050023930695b0cf7cd6db7d7dc947ca31a795b55b895de60d4"
+        action: null
+      - slot: 15
+        displayname: "&9Land Members"
+        lore:
+          - "&7Click here to view land members"
+        item: "HEAD-d1d2b7dd66ffd86ad4709927b175e83f1a9e10fbc864b2390403708f39d8efd8"
+        action: 1 # Opens Land members GUI, once this item is clicked.
 
   role_permissions:
     title: "&9Role Permissions: &6%role_name%"

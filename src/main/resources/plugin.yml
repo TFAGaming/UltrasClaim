@@ -9,3 +9,7 @@ commands:
     aliases:
      - land
     permission: ultrasclaim.lands
+permissions:
+  realmprotection.lands:
+    description: "Allow a player to run the command: /lands"
+    default: true

@@ -218,6 +218,25 @@ public class LandMembersManager {
         return lands;
     }
 
+    public static void updatePlayerPosition(int land_id, OfflinePlayer player, int role_id) {
+        String sql = "UPDATE land_members SET role_id=" + role_id + " WHERE member_uuid = ? AND land_id = ?";
+
+        try {
+            Connection connection = UltrasClaimProtection.database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, player.getUniqueId().toString());
+            statement.setInt(2, land_id);
+
+            statement.execute();
+            statement.close();
+
+            updateCache();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static String createCacheKey(int land_id, int member_id) {
         return land_id + "," + member_id;
     }

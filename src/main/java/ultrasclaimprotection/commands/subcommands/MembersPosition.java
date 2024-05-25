@@ -13,14 +13,14 @@ import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.player.OfflinePlayerUtils;
 
-public class MembersAdd implements CommandExecutor {
+public class MembersPosition implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
             if (!LandsManager.containsPlayer(player)) {
-                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_add.land_null")));
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_position.land_null")));
                 return true;
             }
 
@@ -28,46 +28,47 @@ public class MembersAdd implements CommandExecutor {
 
             if (args.length == 2) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.member_add.player_arg_null")));
+                        ChatColorTranslator.translate(Language.getString("commands.member_position.player_arg_null")));
                 return true;
             }
 
             if (!OfflinePlayerUtils.playerExistsByName(args[2])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.member_add.player_null")));
+                        ChatColorTranslator.translate(Language.getString("commands.member_position.player_null")));
                 return true;
             }
 
             OfflinePlayer member = OfflinePlayerUtils.getOfflinePlayerByName(args[2]);
 
-            if (member.getUniqueId().toString().equals(player.getUniqueId().toString())) {
+            if (!LandMembersManager.contains(land_id, member)) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.member_add.player_equal_owner")));
-                return true;
-            }
-
-            if (LandMembersManager.contains(land_id, member)) {
-                player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.member_add.player_trusted")));
+                        ChatColorTranslator.translate(Language.getString("commands.member_position.player_not_trusted")));
                 return true;
             }
 
             if (args.length == 3) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.member_add.role_arg_null")));
+                        ChatColorTranslator.translate(Language.getString("commands.member_position.role_arg_null")));
                 return true;
             }
 
             if (!LandRolesManager.containsByRoleName(land_id, args[3], false)) {
-                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_add.role_null")));
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_position.role_null")));
+                return true;
+            }
+
+            int role_priority = (int) LandRolesManager.getByRoleName(land_id, args[3], "role_priority");
+            
+            if (role_priority == 0) {
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_position.role_first_priority")));
                 return true;
             }
 
             int role_id = (int) LandRolesManager.getByRoleName(land_id, args[3], "role_id");
 
-            LandMembersManager.create(land_id, member, role_id);
+            LandMembersManager.updatePlayerPosition(land_id, member, role_id);
 
-            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_add.player_added")));
+            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_position.player_updated_position")));
 
             return true;
         } else {

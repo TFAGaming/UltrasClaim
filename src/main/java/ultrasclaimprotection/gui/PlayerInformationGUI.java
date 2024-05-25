@@ -45,11 +45,20 @@ public class PlayerInformationGUI {
                 player_land = Language.getString("general.variables.null", false);
             }
 
+            String player_status;
+
+            if (Bukkit.getPlayer(player_input.getUniqueId()) == null) {
+                player_status = Language.getString("general.variables.player_offline", false);
+            } else {
+                player_status = Language.getString("general.variables.player_online", false);
+            }
+
             ItemStack itemstack = ItemGUI.getGUIItemSeperatedData(displayname, lore, itemtype, Lists.newArrayList(
                     Lists.newArrayList("%player_name%", player_input.getName()),
                     Lists.newArrayList("%player_seen_date%", player_seen_formatted),
                     Lists.newArrayList("%player_ping%", player_ping),
                     Lists.newArrayList("%player_land%", player_land),
+                    Lists.newArrayList("%player_status%", player_status),
                     Lists.newArrayList("%player_lands_list%", player_lands.size() > 0 ? String.join(", ", player_lands)
                             : Language.getString("general.variables.null", false))));
 

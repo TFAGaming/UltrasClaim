@@ -21,7 +21,9 @@ public class MembersList implements CommandExecutor {
                 return true;
             }
 
-            LandMembersGUI.create(player);
+            int land_id = (int) LandsManager.getByPlayer(player, "land_id");
+
+            LandMembersGUI.create(player, land_id);
 
             return true;
         } else {

@@ -44,6 +44,8 @@ lands:
 
   default_visitor_role: "Visitor"
 
+  default_description: "&9Owned by %player_name%"
+
   # Each default roles has it's specific permissions, all based on bitwise operations.
   # Read README.md for a guide!
   role_flags:

@@ -1,10 +1,13 @@
 package ultrasclaimprotection.commands.subcommands;
 
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import ultrasclaimprotection.managers.LandMembersManager;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
@@ -43,6 +46,11 @@ public class RoleDelete implements CommandExecutor {
                 return true;
             }
 
+            if (landMemberHasRole(land_id, (int) LandRolesManager.getByRoleName(land_id, args[2], "role_id"))) {
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.role_delete.trusted_player_has_role")));
+                return true;
+            }
+
             LandRolesManager.delete(land_id, (int) LandRolesManager.getByRoleName(land_id, args[2], "role_id"));
 
             player.sendMessage(
@@ -52,5 +60,20 @@ public class RoleDelete implements CommandExecutor {
         } else {
             return false;
         }
+    }
+
+    private boolean landMemberHasRole(int land_id, int role_id) {
+        boolean value = false;
+
+        List<List<Object>> data = LandMembersManager.getListLandMembers(land_id);
+
+        for (List<Object> each : data) {
+            if ((int) each.get(1) == role_id) {
+                value = true;
+                break;
+            }
+        }
+
+        return value;
     }
 }

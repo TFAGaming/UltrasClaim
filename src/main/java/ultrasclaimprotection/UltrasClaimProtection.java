@@ -10,6 +10,7 @@ import ultrasclaimprotection.database.Database;
 import ultrasclaimprotection.events.chunks.BlocksProtectionListener;
 import ultrasclaimprotection.events.chunks.EntitiesProtectionListener;
 import ultrasclaimprotection.events.chunks.EnvironmentProtectionListener;
+import ultrasclaimprotection.events.chunks.PlayerMovementChunkEntry;
 import ultrasclaimprotection.events.gui.NormalGUIListener;
 import ultrasclaimprotection.events.gui.PaginationGUIListener;
 import ultrasclaimprotection.events.teleportation.PlayerMovedDelayedTP;
@@ -64,6 +65,7 @@ public class UltrasClaimProtection extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new BlocksProtectionListener(), this);
 		getServer().getPluginManager().registerEvents(new EnvironmentProtectionListener(), this);
 		getServer().getPluginManager().registerEvents(new EntitiesProtectionListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerMovementChunkEntry(), this);
 
 		getCommand("lands").setExecutor(new LandsCommand());
         getCommand("land").setExecutor(new LandsCommand());
