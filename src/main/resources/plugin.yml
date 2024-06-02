@@ -8,8 +8,8 @@ commands:
     usage: '/<command> [subcommand]'
     aliases:
      - land
-    permission: ultrasclaim.lands
+    permission: ultrasclaimprotection.lands
 permissions:
-  realmprotection.lands:
+  ultrasclaimprotection.lands:
     description: "Allow a player to run the command: /lands"
     default: true

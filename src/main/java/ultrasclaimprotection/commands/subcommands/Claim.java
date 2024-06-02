@@ -13,6 +13,7 @@ import ultrasclaimprotection.managers.LandChunksManager;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
+import ultrasclaimprotection.utils.chat.StringUtils;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
 
@@ -42,6 +43,12 @@ public class Claim implements CommandExecutor {
                 if (args.length == 1) {
                     player.sendMessage(
                             ChatColorTranslator.translate(Language.getString("commands.claim.land_name_arg_null")));
+                    return true;
+                }
+
+                if (!StringUtils.isAlphanumericString(args[1])) {
+                    player.sendMessage(
+                            ChatColorTranslator.translate(Language.getString("commands.claim.land_name_non_alphanumeric")));
                     return true;
                 }
 

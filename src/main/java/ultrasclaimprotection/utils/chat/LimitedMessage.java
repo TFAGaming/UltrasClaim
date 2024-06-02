@@ -14,7 +14,7 @@ import ultrasclaimprotection.utils.language.Language;
 public class LimitedMessage {
     private static Set<UUID> cache = new HashSet<>();
 
-    public static void send(Player player, int flag, Chunk claimed_chunk) {
+    public static void send(Player player, int flag, Chunk... claimed_chunk) {
         if (!cache.contains(player.getUniqueId())) {
             player.sendMessage(ChatColorTranslator.translate(Language.getString("permissions.role_permissions", false)
                     .replace("%permission%", RoleFlags.from(flag).toLowerCase())));

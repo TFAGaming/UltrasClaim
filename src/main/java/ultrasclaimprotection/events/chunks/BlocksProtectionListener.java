@@ -243,7 +243,9 @@ public class BlocksProtectionListener implements Listener {
                         || material.equals(Material.BREWING_STAND) || material.equals(Material.BARREL)
                         || material.equals(Material.SHULKER_BOX) || material.equals(Material.BEACON)
                         || material.equals(Material.DROPPER) || material.equals(Material.DISPENSER)
-                        || material.equals(Material.CHISELED_BOOKSHELF) || material.name().contains("ANVIL")) {
+                        || material.equals(Material.CHISELED_BOOKSHELF) || material.name().contains("ANVIL")
+                        || material.equals(Material.CAULDRON) || material.equals(Material.LAVA_CAULDRON)
+                        || material.equals(Material.WATER_CAULDRON)) {
                     if (!player.getUniqueId().toString().equals(chunk_owner.getUniqueId().toString())
                             && !PlayerPermissions.hasPermission(land_id, player, RoleFlags.CONTAINERS)) {
                         event.setCancelled(true);

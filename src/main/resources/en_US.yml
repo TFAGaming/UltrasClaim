@@ -24,19 +24,13 @@ commands:
     chunk_taken: "&cThis chunk is already been claimed."
     chunk_disabled_world: "&cYou are currently in a world where chunks cannot be claimed."
     land_name_arg_null: "&cPlease provide a new land name, because you're going to create a new one."
+    land_name_non_alphanumeric: "&cThe land name must be alphanumeric."
     land_name_taken: "&cThis land name is already been taken, please choose another one."
     chunk_claimed: "&aYou have successfully claimed this chunk."
 
   claimlist:
     land_null: "&cYou must create a land to view the claims list."
     teleport_success: "&aSuccessfully teleport to the chunk: &9%chunk_x%, &9%chunk_z% &7(%chunk_world%)"
-
-  unclaim:
-    chunk_not_taken: "&cThis chunk is not claimed."
-    land_null: "&cYou must create a land to unclaim this chunk."
-    chunk_not_owner: "&cYou don't own this chunk."
-    chunk_unclaimed: "&aYou have successfully unclaimed this chunk."
-    land_deleted: "&eYour land was deleted because there are no chunks to maintain it."
 
   land_information:
     land_arg_null: "&cYou must provide the land name."
@@ -50,6 +44,7 @@ commands:
     player_trusted: "&cThis player is already been trusted in this land."
     role_arg_null: "&cYou must provide the role name."
     role_null: "&cThis role name was not found."
+    role_first_priority: "&cThis role is a Visitor role, land members cannot be marked as visitors."
     player_added: "&aSuccessfully trusted the player, they are now a member of your land."
 
   member_list:
@@ -77,9 +72,17 @@ commands:
     player_not_registered: "&cThis player has never joined this server."
     player_null: "&cThis player name was not found."
 
+  rename:
+    land_null: "&cYou must create a land to do this."
+    land_name_arg_null: "&cYou must provide a new land name."
+    land_name_non_alphanumeric: "&cThe land name must be alphanumeric."
+    land_name_found: "&cThe land name is already been taken, please choose another one."
+    land_renamed: "&aSuccessfully renamed the land."
+
   role_create:
     land_null: "&cYou must create a land to manage roles."
     role_arg_null: "&cYou must provide a role name."
+    role_name_non_alphanumeric: "&cThe role name must be alphanumeric."
     role_found: "&cThis role name already exists, please choose another one."
     role_created: "&aSuccessfully created a new role."
 
@@ -101,12 +104,34 @@ commands:
     role_arg_null: "&cYou must provide a role name."
     role_null: "&cThis role name does not exist."
     role_newname_arg_null: "&cYou must provide a new role name."
+    role_newname_non_alphanumeric: "&cThe role name must be alphanumeric."
     role_newname_found: "&cThere is another role with the same role name."
     role_renamed: "&aSuccessfully renamed the role."
+
+  set_description:
+    land_null: "&cYou must create a land to update location."
+    land_description_arg_null: "&cYou must provide a new description for the land."
+    land_description_set: "&aSuccessfully updated the land description."
+
+  set_spawn:
+    land_null: "&cYou must create a land to update location."
+    land_spawnpoint_updated: "&aSuccessfully updated the location."
+
+  unclaim:
+    chunk_not_taken: "&cThis chunk is not claimed."
+    land_null: "&cYou must create a land to run this command."
+    chunk_not_owner: "&cYou don't own this chunk."
+    chunk_unclaimed: "&aYou have successfully unclaimed this chunk."
+    land_deleted: "&eYour land was deleted because there are no chunks to maintain it."
 
   view:
     chunk_not_taken: "&cThis chunk is part of Wilderness."
     view_success: "&aYou may take a look around the land to view the particles."
+
+  visit:
+    land_arg_null: "&cYou must provide the land name."
+    land_null: "&cThis land name was not found."
+    teleported_success: "&aYou have successfully visited the land."
 
 gui:
   config:
@@ -480,6 +505,12 @@ items:
         - "Allow plants to grow?"
         - "&7Value: %flag_value%"
       item: "OAK_SAPLING"
+    RAID_TRIGGER:
+      displayname: "&9Raid Trigger"
+      lore:
+        - "Allow players to trigger a Raid in your land?"
+        - "&7Value: %flag_value%"
+      item: "HEAD-4aee6bb37cbfc92b0d86db5ada4790c64ff4468d68b84942fde04405e8ef5333"
 
 permissions:
   role_permissions: "&8[&9UltrasClaim&8] &cYou do not the permission to do this! &8(Flag: %permission%)"

@@ -17,6 +17,7 @@ public class NaturalFlags {
     public static final int WILDERNESS_PISTONS = 1 << 8;
     public static final int WILDERNESS_DISPENSERS = 1 << 9;
     public static final int PLANT_GROWTH = 1 << 10;
+    public static final int RAID_TRIGGER = 1 << 11;
 
     public static List<String> listFlags() {
         return Lists.newArrayList(
@@ -30,7 +31,8 @@ public class NaturalFlags {
                 "EXPLOSIONS_DAMAGE",
                 "WILDERNESS_PISTONS",
                 "WILDERNESS_DISPENSERS",
-                "PLANT_GROWTH");
+                "PLANT_GROWTH",
+                "RAID_TRIGGER");
     }
 
     public static int valueOf(String name) {

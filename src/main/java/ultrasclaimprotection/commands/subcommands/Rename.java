@@ -5,49 +5,46 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.chat.StringUtils;
-import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.language.Language;
 
-public class RoleCreate implements CommandExecutor {
+public class Rename implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
             if (!LandsManager.containsPlayer(player)) {
-                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.role_create.land_null")));
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.rename.land_null")));
                 return true;
             }
 
             int land_id = (int) LandsManager.getByPlayer(player, "land_id");
 
-            if (args.length == 2) {
+            if (args.length == 1) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_arg_null")));
+                        ChatColorTranslator.translate(Language.getString("commands.rename.land_name_arg_null")));
                 return true;
             }
 
-            if (!StringUtils.isAlphanumericString(args[2])) {
+            if (!StringUtils.isAlphanumericString(args[1])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_name_non_alphanumeric")));
+                        ChatColorTranslator.translate(Language.getString("commands.rename.land_name_non_alphanumeric")));
                 return true;
             }
 
-            if (LandRolesManager.containsByRoleName(land_id, args[2], true)) {
+            if (LandsManager.containsLandName(args[1])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_found")));
+                        ChatColorTranslator.translate(Language.getString("commands.rename.land_name_found")));
                 return true;
             }
 
-            LandRolesManager.create(land_id, args[2], 2, FlagsCalculator.calculate(RoleFlags.PICKUP_ITEMS, RoleFlags.ENTER_LAND));
+            LandsManager.rename(land_id, args[1]);
 
             player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_created")));
+                    ChatColorTranslator.translate(Language.getString("commands.rename.land_renamed")));
 
             return true;
         } else {

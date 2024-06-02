@@ -216,7 +216,7 @@ public class LandChunksManager {
         if (contains(chunk)) {
             int land_id = (int) get(chunk, "land_id");
 
-            return Bukkit.getOfflinePlayer(UUID.fromString((String) LandsManager.get(land_id, "owner_uuid"))).getPlayer();
+            return Bukkit.getOfflinePlayer(UUID.fromString((String) LandsManager.get(land_id, "owner_uuid")));
         } else {
             return null;
         }
@@ -248,9 +248,12 @@ public class LandChunksManager {
 
     public static int getPlayerFlagByChunk(Chunk chunk, Player player) {
         OfflinePlayer chunk_owner = getChunkOwner(chunk);
+        int land_id = (int) LandChunksManager.get(chunk, "land_id");
 
         if (chunk_owner.getUniqueId().equals(player.getUniqueId())) {
             return PlayerFlags.LAND_OWNER;
+        } else if (LandMembersManager.contains(land_id, player)) {
+            return PlayerFlags.LAND_MEMBER;
         }
 
         return PlayerFlags.LAND_VISITOR;

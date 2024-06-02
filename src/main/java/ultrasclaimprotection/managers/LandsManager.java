@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -322,6 +323,24 @@ public class LandsManager {
         return land_names;
     }
 
+    public static void updateDescription(int land_id, String description) {
+        String sql = "UPDATE lands SET land_description='" + description + "' WHERE land_id = ?";
+
+        try {
+            Connection connection = UltrasClaimProtection.database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, land_id);
+
+            statement.execute();
+            statement.close();
+
+            updateCache();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateLocation(int land_id, Player player) {
         String sql = "UPDATE lands SET location_x=" + player.getLocation().getX() + ", location_y=" + player.getLocation().getY() + ", location_z="
                 + player.getLocation().getZ() + ", location_world = '" + player.getLocation().getWorld().getName() + "', location_yaw=" + player.getLocation().getYaw()
@@ -340,6 +359,20 @@ public class LandsManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Location getLocation(int land_id) {
+        double location_x = (double) get(land_id, "location_x");
+        double location_y = (double) get(land_id, "location_y");
+        double location_z = (double) get(land_id, "location_z");
+        String location_world = (String) get(land_id, "location_world");
+        float location_yaw = (float) get(land_id, "location_yaw");
+
+        Location location = new Location(Bukkit.getWorld(location_world), location_x, location_y, location_z);
+
+        location.setYaw(location_yaw);
+
+        return location;
     }
 
     public static void updateNaturalFlags(int land_id, int flags) {

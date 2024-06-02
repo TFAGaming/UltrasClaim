@@ -35,8 +35,13 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityBreakDoorEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.raid.RaidTriggerEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import ultrasclaimprotection.managers.LandChunksManager;
 import ultrasclaimprotection.managers.LandsManager;
@@ -331,6 +336,61 @@ public class EnvironmentProtectionListener implements Listener {
             } else if (entity instanceof Animals || entity instanceof Mob) {
                 if (!LandsManager.isFlagSet(land_id, NaturalFlags.PASSIVE_ENTITIES_SPAWN)) {
                     event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        Entity entity = event.getEntity();
+        Entity damager = event.getDamager();
+        Chunk chunk = entity.getLocation().getChunk();
+
+        if (LandChunksManager.contains(chunk)) {
+            int land_id = (int) LandChunksManager.get(chunk, "land_id");
+
+            if ((damager instanceof Entity && !(damager instanceof Player)) && entity instanceof Entity) {
+                if (!LandsManager.isFlagSet(land_id, NaturalFlags.ENTITIES_DAMAGE_ENTITIES)) {
+                    event.setCancelled(true);
+                }
+            }
+
+        }
+    }
+
+    @EventHandler
+    public void onEntityBreakDoor(EntityBreakDoorEvent event) {
+        Entity entity = event.getEntity();
+        Chunk chunk = entity.getLocation().getChunk();
+
+        if (LandChunksManager.contains(chunk)) {
+            int land_id = (int) LandChunksManager.get(chunk, "land_id");
+
+            if (!(entity instanceof Player)) {
+                if (!LandsManager.isFlagSet(land_id, NaturalFlags.ENTITIES_DAMAGE_ENTITIES)) {
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onRaidTrigger(RaidTriggerEvent event) {
+        Player player = event.getPlayer();
+        Chunk chunk = player.getLocation().getChunk();
+
+        if (LandChunksManager.contains(chunk)) {
+            int land_id = (int) LandChunksManager.get(chunk, "land_id");
+
+            if (!LandsManager.isFlagSet(land_id, NaturalFlags.RAID_TRIGGER)) {
+
+                event.setCancelled(true);
+
+                PotionEffect effect = event.getPlayer().getPotionEffect(PotionEffectType.BAD_OMEN);
+
+                if (effect != null) {
+                    event.getPlayer().removePotionEffect(PotionEffectType.BAD_OMEN);
                 }
             }
         }

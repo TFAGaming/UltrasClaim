@@ -17,11 +17,15 @@ import ultrasclaimprotection.commands.subcommands.MembersPosition;
 import ultrasclaimprotection.commands.subcommands.MembersRemove;
 import ultrasclaimprotection.commands.subcommands.NaturalFlags;
 import ultrasclaimprotection.commands.subcommands.PlayerInformation;
+import ultrasclaimprotection.commands.subcommands.Rename;
 import ultrasclaimprotection.commands.subcommands.RoleCreate;
 import ultrasclaimprotection.commands.subcommands.RoleDelete;
 import ultrasclaimprotection.commands.subcommands.RolePermissions;
 import ultrasclaimprotection.commands.subcommands.RoleRename;
+import ultrasclaimprotection.commands.subcommands.SetDescription;
+import ultrasclaimprotection.commands.subcommands.SetSpawn;
 import ultrasclaimprotection.commands.subcommands.Unclaim;
+import ultrasclaimprotection.commands.subcommands.Visit;
 import ultrasclaimprotection.commands.subcommands.LandView;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
@@ -59,6 +63,18 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "info":
                         new LandInformation().onCommand(sender, command, label, args);
+                        break;
+                    case "rename":
+                        new Rename().onCommand(sender, command, label, args);
+                        break;
+                    case "visit":
+                        new Visit().onCommand(sender, command, label, args);
+                        break;
+                    case "setspawn":
+                        new SetSpawn().onCommand(sender, command, label, args);
+                        break;
+                    case "setdescription":
+                        new SetDescription().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -132,6 +148,9 @@ public class LandsCommand implements TabExecutor {
                 case "info":
                     arraylist = LandsManager.getListLandNames();
                     break;
+                case "visit":
+                    arraylist = LandsManager.getListLandNames();
+                    break;
             }
 
             currentindex = 2;
@@ -184,7 +203,8 @@ public class LandsCommand implements TabExecutor {
             }
 
             currentindex = 3;
-        } else if (args.length == 4 && args[0].equalsIgnoreCase("members") && (args[1].equalsIgnoreCase("add") || args[1].equalsIgnoreCase("position"))) {
+        } else if (args.length == 4 && args[0].equalsIgnoreCase("members")
+                && (args[1].equalsIgnoreCase("add") || args[1].equalsIgnoreCase("position"))) {
             if (LandsManager.containsPlayer((Player) sender)) {
                 int land_id = (int) LandsManager.getByPlayer((Player) sender, "land_id");
 
@@ -217,6 +237,10 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("roles");
         arraylist.add("nature");
         arraylist.add("info");
+        arraylist.add("rename");
+        arraylist.add("visit");
+        arraylist.add("setspawn");
+        arraylist.add("setdescription");
 
         return arraylist;
     };

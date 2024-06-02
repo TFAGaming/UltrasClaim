@@ -63,6 +63,13 @@ public class MembersAdd implements CommandExecutor {
                 return true;
             }
 
+            int role_priority = (int) LandRolesManager.getByRoleName(land_id, args[3], "role_priority");
+            
+            if (role_priority == 0) {
+                player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_add.role_first_priority")));
+                return true;
+            }
+
             int role_id = (int) LandRolesManager.getByRoleName(land_id, args[3], "role_id");
 
             LandMembersManager.create(land_id, member, role_id);

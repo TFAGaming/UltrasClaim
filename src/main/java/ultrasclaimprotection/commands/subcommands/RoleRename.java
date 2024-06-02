@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
-
+import ultrasclaimprotection.utils.chat.StringUtils;
 import ultrasclaimprotection.utils.language.Language;
 
 public class RoleRename implements CommandExecutor {
@@ -39,6 +39,12 @@ public class RoleRename implements CommandExecutor {
             if (args.length == 3) {
                 player.sendMessage(
                         ChatColorTranslator.translate(Language.getString("commands.role_rename.role_newname_arg_null")));
+                return true;
+            }
+
+            if (!StringUtils.isAlphanumericString(args[3])) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.role_rename.role_newname_non_alphanumeric")));
                 return true;
             }
 
