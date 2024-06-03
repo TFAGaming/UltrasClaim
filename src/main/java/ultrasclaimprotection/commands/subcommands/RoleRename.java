@@ -38,13 +38,21 @@ public class RoleRename implements CommandExecutor {
 
             if (args.length == 3) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_rename.role_newname_arg_null")));
+                        ChatColorTranslator
+                                .translate(Language.getString("commands.role_rename.role_newname_arg_null")));
                 return true;
             }
 
             if (!StringUtils.isAlphanumericString(args[3])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_rename.role_newname_non_alphanumeric")));
+                        ChatColorTranslator
+                                .translate(Language.getString("commands.role_rename.role_newname_non_alphanumeric")));
+                return true;
+            }
+
+            if (args[3].length() > 16) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.role_rename.role_newname_too_long")));
                 return true;
             }
 
@@ -54,10 +62,11 @@ public class RoleRename implements CommandExecutor {
                 return true;
             }
 
-            LandRolesManager.rename(land_id, (int) LandRolesManager.getByRoleName(land_id, args[2], "role_id"), args[3]);
+            LandRolesManager.rename(land_id, (int) LandRolesManager.getByRoleName(land_id, args[2], "role_id"),
+                    args[3]);
 
             player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_rename.role_renamed")));
+                    ChatColorTranslator.translate(Language.getString("commands.role_rename.role_renamed").replace("%old_rolename%", args[2]).replace("%new_rolename%", args[3])));
 
             return true;
         } else {

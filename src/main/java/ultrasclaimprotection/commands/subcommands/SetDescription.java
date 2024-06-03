@@ -33,6 +33,12 @@ public class SetDescription implements CommandExecutor {
                 return true;
             }
 
+            if (args[3].length() > 16) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.set_description.land_description_too_long")));
+                return true;
+            }
+
             List<String> description = Arrays.asList(sliceArray(args, 1, args.length));
 
             LandsManager.updateDescription(land_id, String.join(" ", description));

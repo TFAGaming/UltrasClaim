@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import ultrasclaimprotection.managers.LandChunksManager;
 import ultrasclaimprotection.managers.LandsManager;
+import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.gui.PaginationGUI;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.teleportation.DelayedTeleport;
@@ -51,8 +52,7 @@ public class ClaimlistGUIListener {
 
                 DelayedTeleport.create(player, location,
                         Language.getString("commands.claimlist.teleport_success", true)
-                                .replace("%chunk_x%", "" + chunk_x).replace("%chunk_z%", "" + chunk_z)
-                                .replace("%chunk_world%", chunk_world));
+                                .replace("%chunk_details%", Variables.getChunkDetail(location.getChunk())));
             }
         }
     }

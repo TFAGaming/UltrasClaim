@@ -31,7 +31,14 @@ public class Rename implements CommandExecutor {
 
             if (!StringUtils.isAlphanumericString(args[1])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.rename.land_name_non_alphanumeric")));
+                        ChatColorTranslator
+                                .translate(Language.getString("commands.rename.land_name_non_alphanumeric")));
+                return true;
+            }
+
+            if (args[1].length() > 16) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.rename.land_name_too_long")));
                 return true;
             }
 
@@ -44,7 +51,7 @@ public class Rename implements CommandExecutor {
             LandsManager.rename(land_id, args[1]);
 
             player.sendMessage(
-                    ChatColorTranslator.translate(Language.getString("commands.rename.land_renamed")));
+                    ChatColorTranslator.translate(Language.getString("commands.rename.land_renamed").replace("%land_newname%", args[1])));
 
             return true;
         } else {

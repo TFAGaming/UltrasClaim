@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.chat.LimitedMessage;
+import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.player.PlayerPermissions;
@@ -54,7 +55,7 @@ public class Visit implements CommandExecutor {
             Location location = LandsManager.getLocation(land_id);
 
             DelayedTeleport.create(player, location, ChatColorTranslator
-                    .translate(Language.getString("commands.visit.teleported_success")));
+                    .translate(Language.getString("commands.visit.teleported_success").replace("%location_details%", Variables.getLocationDetail(location))));
 
             return true;
         } else {

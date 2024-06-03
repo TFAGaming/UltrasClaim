@@ -5,12 +5,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import ultrasclaimprotection.UltrasClaimProtection;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.chat.StringUtils;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
-import ultrasclaimprotection.utils.flags.RoleFlags;
 import ultrasclaimprotection.utils.language.Language;
 
 public class RoleCreate implements CommandExecutor {
@@ -34,7 +34,14 @@ public class RoleCreate implements CommandExecutor {
 
             if (!StringUtils.isAlphanumericString(args[2])) {
                 player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_name_non_alphanumeric")));
+                        ChatColorTranslator
+                                .translate(Language.getString("commands.role_create.role_name_non_alphanumeric")));
+                return true;
+            }
+
+            if (args[2].length() > 16) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_name_too_long")));
                 return true;
             }
 
@@ -44,10 +51,11 @@ public class RoleCreate implements CommandExecutor {
                 return true;
             }
 
-            LandRolesManager.create(land_id, args[2], 2, FlagsCalculator.calculate(RoleFlags.PICKUP_ITEMS, RoleFlags.ENTER_LAND));
+            LandRolesManager.create(land_id, args[2], 2,
+                    FlagsCalculator.calculate(UltrasClaimProtection.getPlugin(UltrasClaimProtection.class).getConfig().getInt("lands.default_role_flags")));
 
             player.sendMessage(
-                        ChatColorTranslator.translate(Language.getString("commands.role_create.role_created")));
+                    ChatColorTranslator.translate(Language.getString("commands.role_create.role_created").replace("%role_name%", args[2])));
 
             return true;
         } else {

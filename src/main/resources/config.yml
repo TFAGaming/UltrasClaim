@@ -37,20 +37,29 @@ textures:
 ############################################################
 lands:
   # The list of default roles that should be automatically created when a player claims a chunk for the first time.
+  # The list must be from the highest priority (which is 0) to the lowest (which is 2). In the plugin, Visitor is always marked as 0, and Member with 1. Other roles are always marked with 2.
+  # Please always make sure the Untrusted (or Visitor) role MUST BE the first role in the array, so it can have the priority 0.
   # WARNING: You must provide at least two roles!
   roles:
     - "Visitor"
     - "Member"
+    - "Admin"
 
+  # This must be the Untrusted (or Visitor) role name, do NOT use any other roles!
   default_visitor_role: "Visitor"
 
+  # When a player creates a new land, a description must be set automatically.
   default_description: "&9Owned by %player_name%"
+
+  # When a player creates a new role, some default flags must be set with the new role.
+  default_role_flags: 71303168 
 
   # Each default roles has it's specific permissions, all based on bitwise operations.
   # Read README.md for a guide!
   role_flags:
     Visitor: 71303168
     Member: 91750399
+    Admin: 134217727 # Every permission
   
   # When a player creates a new land, it has it's specific natural flags, all based on bitwise operations.
   # Read README.md for a guide!
@@ -65,17 +74,17 @@ lands:
   
   # The border colors are basically the particles colors that spawns around a land.
   # The colors are RGB based: First index is RED, second is GREEN, and third is BLUE.
-  # Default colors: visitor = Red, trusted = Yellow, owner = Green.
+  # Default colors: Untrusted = Red, Trusted = Yellow, Owner = Green.
   border_colors:
-    visitor:
+    Untrusted:
       - 255
       - 0
       - 0
-    trusted:
+    Trusted:
       - 255
       - 255
       - 0
-    owner:
+    Owner:
       - 0
       - 255
       - 0

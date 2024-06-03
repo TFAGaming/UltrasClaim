@@ -12,6 +12,7 @@ import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.managers.LandMembersManager;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
+import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
 
@@ -45,7 +46,7 @@ public class Unclaim implements CommandExecutor {
 
             LandChunksManager.delete(chunk);
 
-            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_unclaimed")));
+            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.unclaim.chunk_unclaimed").replace("%chunk_details%", Variables.getChunkDetail(chunk))));
 
             if (LandChunksManager.count(land_id) == 0) {
                 LandsManager.delete(land_id);

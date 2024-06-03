@@ -27,7 +27,7 @@ public class LandInformation implements CommandExecutor {
 
             int land_id;
 
-            if (LandChunksManager.contains(chunk)) {
+            if (LandChunksManager.contains(chunk) && args.length != 1) {
                 land_id = (int) LandChunksManager.get(chunk, "land_id");
             } else {
                 if (args.length == 1) {

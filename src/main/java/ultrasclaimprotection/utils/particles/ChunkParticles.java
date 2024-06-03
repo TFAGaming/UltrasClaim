@@ -57,17 +57,17 @@ public class ChunkParticles {
             DustOptions dustoptions;
 
             if (FlagsCalculator.isFlagSet(flags, PlayerFlags.LAND_OWNER)) {
-                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.owner");
+                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.Owner");
 
                 dustoptions = new DustOptions(Color.fromRGB(new Integer(bordercolor.get(0)),
                         new Integer(bordercolor.get(1)), new Integer(bordercolor.get(2))), 1.0F);
             } else if (FlagsCalculator.isFlagSet(flags, PlayerFlags.LAND_MEMBER)) {
-                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.trusted");
+                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.Trusted");
 
                 dustoptions = new DustOptions(Color.fromRGB(new Integer(bordercolor.get(0)),
                         new Integer(bordercolor.get(1)), new Integer(bordercolor.get(2))), 1.0F);
             } else {
-                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.visitor");
+                List<String> bordercolor = plugin.getConfig().getStringList("lands.border_colors.Untrusted");
 
                 dustoptions = new DustOptions(Color.fromRGB(new Integer(bordercolor.get(0)),
                         new Integer(bordercolor.get(1)), new Integer(bordercolor.get(2))), 1.0F);

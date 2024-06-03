@@ -14,6 +14,7 @@ import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.chat.StringUtils;
+import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
 
@@ -52,6 +53,12 @@ public class Claim implements CommandExecutor {
                     return true;
                 }
 
+                if (args[1].length() > 16) {
+                    player.sendMessage(
+                            ChatColorTranslator.translate(Language.getString("commands.claim.land_name_too_long")));
+                    return true;
+                }
+
                 if (LandsManager.containsLandName(args[1])) {
                     player.sendMessage(
                             ChatColorTranslator.translate(Language.getString("commands.claim.land_name_taken")));
@@ -79,7 +86,7 @@ public class Claim implements CommandExecutor {
 
             LandChunksManager.create(land_id, chunk);
 
-            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.claim.chunk_claimed")));
+            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.claim.chunk_claimed").replace("%chunk_details%", Variables.getChunkDetail(chunk))));
 
             ChunkParticles.spawn(player, land_id, 1, LandChunksManager.getPlayerFlagByChunk(chunk, player));
 

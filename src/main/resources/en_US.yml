@@ -8,10 +8,12 @@ general:
       player_moved: "&cThe teleportation has been canceled because you moved."
       delay_already_exist: "&cPlease wait until this requested teleportation finishes."
   variables:
-    enabled: "&a✔ Enabled &r"
-    disabled: "&c✘ Disabled &r"
+    enabled: "&#00FF00✔ Enabled &r"
+    disabled: "&#FF0000✘ Disabled &r"
     player_online: "&aOnline"
     player_offline: "&cOffline"
+    chunk_details: "&9(X: &#0099FF%chunk_x%&9, Z: &#0099FF%chunk_z%&9, World: &#0099ff%chunk_world%&9)"
+    location_details: "&9(X: &#0099FF%location_x%&9, Y: &#0099FF%location_y%&9, Z: &#0099FF%location_z%&9, World: &#0099ff%location_world%&9)"
     null: "&cNone &r"
   chunk_entry:
     claimed: "&aWelcome to &6%land_name% &7| &r%land_description%"
@@ -25,12 +27,13 @@ commands:
     chunk_disabled_world: "&cYou are currently in a world where chunks cannot be claimed."
     land_name_arg_null: "&cPlease provide a new land name, because you're going to create a new one."
     land_name_non_alphanumeric: "&cThe land name must be alphanumeric."
+    land_name_too_long: "&cThe land name is too long, please make sure the length is between 1 and 16."
     land_name_taken: "&cThis land name is already been taken, please choose another one."
-    chunk_claimed: "&aYou have successfully claimed this chunk."
+    chunk_claimed: "&aYou have successfully claimed the chunk: %chunk_details%"
 
   claimlist:
     land_null: "&cYou must create a land to view the claims list."
-    teleport_success: "&aSuccessfully teleport to the chunk: &9%chunk_x%, &9%chunk_z% &7(%chunk_world%)"
+    teleport_success: "&aSuccessfully teleport to the chunk: %chunk_details%"
 
   land_information:
     land_arg_null: "&cYou must provide the land name."
@@ -76,15 +79,17 @@ commands:
     land_null: "&cYou must create a land to do this."
     land_name_arg_null: "&cYou must provide a new land name."
     land_name_non_alphanumeric: "&cThe land name must be alphanumeric."
+    land_name_too_long: "&cThe land name is too long, please make sure the length is between 1 and 16."
     land_name_found: "&cThe land name is already been taken, please choose another one."
-    land_renamed: "&aSuccessfully renamed the land."
+    land_renamed: "&aSuccessfully renamed the land to &6%land_newname%&a."
 
   role_create:
     land_null: "&cYou must create a land to manage roles."
     role_arg_null: "&cYou must provide a role name."
     role_name_non_alphanumeric: "&cThe role name must be alphanumeric."
+    role_name_too_long: "&cThe role name is too long, please make sure the length is between 1 and 16."
     role_found: "&cThis role name already exists, please choose another one."
-    role_created: "&aSuccessfully created a new role."
+    role_created: "&aSuccessfully created a new role: &7%role_name%&a."
 
   role_delete:
     land_null: "&cYou must create a land to manage roles."
@@ -105,23 +110,25 @@ commands:
     role_null: "&cThis role name does not exist."
     role_newname_arg_null: "&cYou must provide a new role name."
     role_newname_non_alphanumeric: "&cThe role name must be alphanumeric."
+    role_newname_too_long: "&cThe role name is too long, please make sure the length is between 1 and 16."
     role_newname_found: "&cThere is another role with the same role name."
-    role_renamed: "&aSuccessfully renamed the role."
+    role_renamed: "&aSuccessfully renamed the role from &7%old_rolename% &ato &7%new_rolename%&a."
 
   set_description:
     land_null: "&cYou must create a land to update location."
     land_description_arg_null: "&cYou must provide a new description for the land."
+    land_description_too_long: "&cThe description is too long, please make sure the length is between 1 and 32."
     land_description_set: "&aSuccessfully updated the land description."
 
   set_spawn:
     land_null: "&cYou must create a land to update location."
-    land_spawnpoint_updated: "&aSuccessfully updated the location."
+    land_spawnpoint_updated: "&aSuccessfully updated the location to: %location_details%"
 
   unclaim:
     chunk_not_taken: "&cThis chunk is not claimed."
     land_null: "&cYou must create a land to run this command."
     chunk_not_owner: "&cYou don't own this chunk."
-    chunk_unclaimed: "&aYou have successfully unclaimed this chunk."
+    chunk_unclaimed: "&aYou have Successfully unclaimed the chunk: %chunk_details%"
     land_deleted: "&eYour land was deleted because there are no chunks to maintain it."
 
   view:
@@ -131,7 +138,7 @@ commands:
   visit:
     land_arg_null: "&cYou must provide the land name."
     land_null: "&cThis land name was not found."
-    teleported_success: "&aYou have successfully visited the land."
+    teleported_success: "&aYou have been teleported to the coordinates: %location_details%"
 
 gui:
   config:

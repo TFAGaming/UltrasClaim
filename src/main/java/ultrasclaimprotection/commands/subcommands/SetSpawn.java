@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
+import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.language.Language;
 
 public class SetSpawn implements CommandExecutor {
@@ -24,7 +25,9 @@ public class SetSpawn implements CommandExecutor {
 
             LandsManager.updateLocation(land_id, player);
 
-            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.set_spawn.land_spawnpoint_updated")));
+            player.sendMessage(
+                    ChatColorTranslator.translate(Language.getString("commands.set_spawn.land_spawnpoint_updated")
+                            .replace("%location_details%", Variables.getLocationDetail(player.getLocation()))));
 
             return true;
         } else {
