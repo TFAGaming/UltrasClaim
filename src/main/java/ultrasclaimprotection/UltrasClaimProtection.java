@@ -14,12 +14,14 @@ import ultrasclaimprotection.events.chunks.PlayerMovementChunkEntry;
 import ultrasclaimprotection.events.gui.NormalGUIListener;
 import ultrasclaimprotection.events.gui.PaginationGUIListener;
 import ultrasclaimprotection.events.teleportation.PlayerMovedDelayedTP;
+import ultrasclaimprotection.plugins.VaultAPI;
 import ultrasclaimprotection.utils.console.Console;
 import ultrasclaimprotection.utils.language.LanguageLoader;
 
 public class UltrasClaimProtection extends JavaPlugin {
 	public static Database database;
 	public static LanguageLoader language;
+	public static VaultAPI vaultapi;
 
 	public void onEnable() {
 		saveDefaultConfig();
@@ -30,6 +32,8 @@ public class UltrasClaimProtection extends JavaPlugin {
             LanguageLoader languageLoader = new LanguageLoader(this);
 
             UltrasClaimProtection.language = languageLoader;
+
+			Console.info("Successfully loaded language file.");
         } catch (IOException error) {
             Console.error("Failed to load language file.");
 
@@ -59,6 +63,18 @@ public class UltrasClaimProtection extends JavaPlugin {
 			return;
 		}
 
+		UltrasClaimProtection.vaultapi = new VaultAPI(this);
+
+		if (!UltrasClaimProtection.vaultapi.setupPermissions()) {
+			Console.error("Failed to load VaultAPI Permissions.");
+
+			disablePlugin();
+
+			return;
+		} else {
+			Console.info("Successfully loaded VaultAPI Permissions.");
+		}
+
 		getServer().getPluginManager().registerEvents(new PaginationGUIListener(), this);
 		getServer().getPluginManager().registerEvents(new NormalGUIListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMovedDelayedTP(), this);
@@ -75,6 +91,16 @@ public class UltrasClaimProtection extends JavaPlugin {
 
 	public void onDisable() {
 		Console.info("The plugin is turned off.");
+
+		try {
+            UltrasClaimProtection.database.closeConnection();
+
+            Console.info("Successfully closed database connection.");
+        } catch (SQLException error) {
+            Console.error("Failed to close database connection.");
+
+            error.printStackTrace();
+        }
 	}
 
 	private void disablePlugin() {

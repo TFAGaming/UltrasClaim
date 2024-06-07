@@ -12,6 +12,7 @@ import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.chat.StringUtils;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
 import ultrasclaimprotection.utils.language.Language;
+import ultrasclaimprotection.utils.player.PlayerPermissions;
 
 public class RoleCreate implements CommandExecutor {
     @Override
@@ -48,6 +49,12 @@ public class RoleCreate implements CommandExecutor {
             if (LandRolesManager.containsByRoleName(land_id, args[2], true)) {
                 player.sendMessage(
                         ChatColorTranslator.translate(Language.getString("commands.role_create.role_found")));
+                return true;
+            }
+
+            if (PlayerPermissions.hasLandLimited(player, "roles")) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.role_create.limit_reached")));
                 return true;
             }
 

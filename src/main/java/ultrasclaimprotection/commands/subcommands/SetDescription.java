@@ -33,15 +33,18 @@ public class SetDescription implements CommandExecutor {
                 return true;
             }
 
-            if (args[3].length() > 16) {
+            System.out.println(args + " " + args.length);
+
+            List<String> descriptionList = Arrays.asList(args).subList(1, args.length);
+            String description = String.join(" ", descriptionList).replace("&#", "&");
+
+            if (description.length() > 32) {
                 player.sendMessage(
                         ChatColorTranslator.translate(Language.getString("commands.set_description.land_description_too_long")));
                 return true;
             }
 
-            List<String> description = Arrays.asList(sliceArray(args, 1, args.length));
-
-            LandsManager.updateDescription(land_id, String.join(" ", description));
+            LandsManager.updateDescription(land_id, description);
 
             player.sendMessage(
                     ChatColorTranslator.translate(Language.getString("commands.set_description.land_description_set")));
@@ -52,6 +55,7 @@ public class SetDescription implements CommandExecutor {
         }
     }
 
+    /*
     public static String[] sliceArray(String[] array, int startIndex, int endIndex) {
         String[] sliced = new String[endIndex - startIndex];
 
@@ -60,4 +64,5 @@ public class SetDescription implements CommandExecutor {
         }
         return sliced;
     }
+    */
 }

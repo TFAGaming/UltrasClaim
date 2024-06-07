@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
@@ -210,7 +211,7 @@ public class LandChunksManager {
         }
 
         return count;
-    };
+    }
 
     public static OfflinePlayer getChunkOwner(Chunk chunk) {
         if (contains(chunk)) {
@@ -237,7 +238,8 @@ public class LandChunksManager {
     }
 
     public static int getPlayerFlag(int land_id, Player player) {
-        Player chunk_owner = Bukkit.getOfflinePlayer(UUID.fromString((String) LandsManager.get(land_id, "owner_uuid"))).getPlayer();
+        Player chunk_owner = Bukkit.getOfflinePlayer(UUID.fromString((String) LandsManager.get(land_id, "owner_uuid")))
+                .getPlayer();
 
         if (chunk_owner.getUniqueId().equals(player.getUniqueId())) {
             return PlayerFlags.LAND_OWNER;
@@ -257,6 +259,52 @@ public class LandChunksManager {
         }
 
         return PlayerFlags.LAND_VISITOR;
+    }
+
+    public static boolean findNeighborChunk(Player player) {
+        Chunk chunk = player.getLocation().getChunk();
+        World world = player.getWorld();
+        int chunkX = chunk.getX();
+        int chunkZ = chunk.getZ();
+        String chunkWorldName = chunk.getWorld().getName();
+
+        if (!world.getName().equals(chunkWorldName))
+            return false;
+
+        Chunk north = world.getChunkAt(chunkX, chunkZ - 1);
+        Chunk south = world.getChunkAt(chunkX, chunkZ + 1);
+        Chunk west = world.getChunkAt(chunkX - 1, chunkZ);
+        Chunk east = world.getChunkAt(chunkX + 1, chunkZ);
+
+        if (contains(north)) {
+            OfflinePlayer temp_land_owner = getChunkOwner(north);
+
+            if (!temp_land_owner.getUniqueId().toString().equals(player.getUniqueId().toString()))
+                return true;
+        }
+
+        if (contains(south)) {
+            OfflinePlayer temp_land_owner = getChunkOwner(south);
+
+            if (!temp_land_owner.getUniqueId().toString().equals(player.getUniqueId().toString()))
+                return true;
+        }
+
+        if (contains(west)) {
+            OfflinePlayer temp_land_owner = getChunkOwner(west);
+
+            if (!temp_land_owner.getUniqueId().toString().equals(player.getUniqueId().toString()))
+                return true;
+        }
+
+        if (contains(east)) {
+            OfflinePlayer temp_land_owner = getChunkOwner(east);
+
+            if (!temp_land_owner.getUniqueId().toString().equals(player.getUniqueId().toString()))
+                return true;
+        }
+
+        return false;
     }
 
     private static String createCacheKey(int chunk_x, int chunk_z, String chunk_world) {

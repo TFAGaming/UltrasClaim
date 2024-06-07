@@ -237,6 +237,34 @@ public class LandMembersManager {
         }
     }
 
+    public static int count(int land_id) {
+        int count = 0;
+
+        for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if (((int) data.get(2)) == land_id) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static int countByPlayer(OfflinePlayer player) {
+        int count = 0;
+
+        for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if (((String) data.get(1)).equals(player.getUniqueId().toString())) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     private static String createCacheKey(int land_id, int member_id) {
         return land_id + "," + member_id;
     }

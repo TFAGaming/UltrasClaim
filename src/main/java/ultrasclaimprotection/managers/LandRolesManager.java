@@ -263,6 +263,20 @@ public class LandRolesManager {
         }
     }
 
+    public static int count(int land_id) {
+        int count = 0;
+
+        for (Map.Entry<String, List<Object>> entry : cache.entrySet()) {
+            List<Object> data = entry.getValue();
+
+            if (((int) data.get(3)) == land_id) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     private static String createCacheKey(int land_id, int role_id) {
         return land_id + "," + role_id;
     }

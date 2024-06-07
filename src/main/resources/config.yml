@@ -97,17 +97,17 @@ lands:
   limits:
     default: # The limits for the group: default
       max_chunks: 8
-      max_members: 5
-      max_roles: 3
+      max_members: 4
+      max_roles: 5
       max_trusted_lands: 3
     vip: # The limits for the group: vip
       max_chunks: 16
-      max_members: 10
-      max_roles: 6
+      max_members: 8
+      max_roles: 10
       max_trusted_lands: 6
     owner: # The limits for the group: owner
-      max_chunks: 64
-      max_members: 32
-      max_roles: 16
-      max_trusted_lands: 10
+      max_chunks: 256
+      max_members: 64
+      max_roles: 32
+      max_trusted_lands: 1
   

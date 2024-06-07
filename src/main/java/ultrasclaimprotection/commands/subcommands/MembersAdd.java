@@ -1,5 +1,6 @@
 package ultrasclaimprotection.commands.subcommands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.chat.ChatColorTranslator;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.player.OfflinePlayerUtils;
+import ultrasclaimprotection.utils.player.PlayerPermissions;
 
 public class MembersAdd implements CommandExecutor {
     @Override
@@ -67,6 +69,18 @@ public class MembersAdd implements CommandExecutor {
             
             if (role_priority == 0) {
                 player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.member_add.role_first_priority")));
+                return true;
+            }
+
+            if (PlayerPermissions.hasLandLimited(Bukkit.getPlayer(member.getUniqueId()), "trusted_lands")) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.member_add.member_limit_reached")));
+                return true;
+            }
+
+            if (PlayerPermissions.hasLandLimited(player, "members")) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.member_add.limit_reached")));
                 return true;
             }
 

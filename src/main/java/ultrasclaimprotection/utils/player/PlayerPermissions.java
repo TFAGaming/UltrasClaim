@@ -3,8 +3,10 @@ package ultrasclaimprotection.utils.player;
 import org.bukkit.entity.Player;
 
 import ultrasclaimprotection.UltrasClaimProtection;
+import ultrasclaimprotection.managers.LandChunksManager;
 import ultrasclaimprotection.managers.LandMembersManager;
 import ultrasclaimprotection.managers.LandRolesManager;
+import ultrasclaimprotection.managers.LandsManager;
 import ultrasclaimprotection.utils.flags.FlagsCalculator;
 
 public class PlayerPermissions {
@@ -26,5 +28,82 @@ public class PlayerPermissions {
 
             return FlagsCalculator.isFlagSet(role_flags, flag);
         }
+    }
+
+    public static boolean hasLandLimited(Player player, String type) {
+        String playergroup = UltrasClaimProtection.vaultapi.permissions.getPrimaryGroup(player);
+
+        switch (type) {
+            case "chunks":
+                int groupchunkslimit = getLimitFromConfig(playergroup, "max_chunks");
+
+                if (groupchunkslimit <= 0) {
+                    groupchunkslimit = 1;
+                }
+
+                int groupchunkslimit_land_id = (int) LandsManager.getByPlayer(player, "land_id");
+                int groupchunkslimit_count = LandChunksManager.count(groupchunkslimit_land_id);
+
+                if (groupchunkslimit_count >= groupchunkslimit) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            case "members":
+                int groupmemberslimit = getLimitFromConfig(playergroup, "max_members");
+
+                if (groupmemberslimit <= 0) {
+                    groupmemberslimit = 1;
+                }
+
+                int groupmemberslimit_land_id = (int) LandsManager.getByPlayer(player, "land_id");
+                int groupmemberslimit_count = LandMembersManager.count(groupmemberslimit_land_id);
+
+                if (groupmemberslimit_count >= groupmemberslimit) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            case "roles":
+                int grouproleslimit = getLimitFromConfig(playergroup, "max_roles");
+
+                if (grouproleslimit <= 0) {
+                    grouproleslimit = 1;
+                }
+
+                int grouproleslimit_land_id = (int) LandsManager.getByPlayer(player, "land_id");
+                int grouproleslimit_count = LandRolesManager.count(grouproleslimit_land_id);
+
+                if (grouproleslimit_count >= grouproleslimit) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            case "trusted_lands":
+                int grouptrustedlandslimit = getLimitFromConfig(playergroup, "max_trusted_lands");
+
+                if (grouptrustedlandslimit <= 0) {
+                    grouptrustedlandslimit = 1;
+                }
+
+                int grouptrustedlandslimit_count = LandMembersManager.countByPlayer(player);
+
+                if (grouptrustedlandslimit_count >= grouptrustedlandslimit) {
+                    return true;
+                } else {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    private static int getLimitFromConfig(String groupname, String limit) {
+        UltrasClaimProtection plugin = UltrasClaimProtection.getPlugin(UltrasClaimProtection.class);
+
+        return plugin.getConfig().getInt("lands.limits." + groupname + "." + limit);
     }
 }

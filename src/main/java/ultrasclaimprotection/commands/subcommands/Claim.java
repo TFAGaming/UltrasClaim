@@ -17,6 +17,7 @@ import ultrasclaimprotection.utils.chat.StringUtils;
 import ultrasclaimprotection.utils.chat.Variables;
 import ultrasclaimprotection.utils.language.Language;
 import ultrasclaimprotection.utils.particles.ChunkParticles;
+import ultrasclaimprotection.utils.player.PlayerPermissions;
 
 public class Claim implements CommandExecutor {
     @Override
@@ -40,6 +41,12 @@ public class Claim implements CommandExecutor {
                 return true;
             }
 
+            if (LandChunksManager.findNeighborChunk(player)) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.claim.chunk_non_spaced")));
+                return true;
+            }
+
             if (!LandsManager.containsPlayer(player)) {
                 if (args.length == 1) {
                     player.sendMessage(
@@ -49,7 +56,8 @@ public class Claim implements CommandExecutor {
 
                 if (!StringUtils.isAlphanumericString(args[1])) {
                     player.sendMessage(
-                            ChatColorTranslator.translate(Language.getString("commands.claim.land_name_non_alphanumeric")));
+                            ChatColorTranslator
+                                    .translate(Language.getString("commands.claim.land_name_non_alphanumeric")));
                     return true;
                 }
 
@@ -84,9 +92,16 @@ public class Claim implements CommandExecutor {
 
             int land_id = (int) LandsManager.getByPlayer(player, "land_id");
 
+            if (PlayerPermissions.hasLandLimited(player, "chunks")) {
+                player.sendMessage(
+                        ChatColorTranslator.translate(Language.getString("commands.claim.limit_reached")));
+                return true;
+            }
+
             LandChunksManager.create(land_id, chunk);
 
-            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.claim.chunk_claimed").replace("%chunk_details%", Variables.getChunkDetail(chunk))));
+            player.sendMessage(ChatColorTranslator.translate(Language.getString("commands.claim.chunk_claimed")
+                    .replace("%chunk_details%", Variables.getChunkDetail(chunk))));
 
             ChunkParticles.spawn(player, land_id, 1, LandChunksManager.getPlayerFlagByChunk(chunk, player));
 

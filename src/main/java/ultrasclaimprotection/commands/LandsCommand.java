@@ -8,8 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import ultrasclaimprotection.commands.subcommands.Abandon;
 import ultrasclaimprotection.commands.subcommands.Claim;
 import ultrasclaimprotection.commands.subcommands.ClaimList;
+import ultrasclaimprotection.commands.subcommands.Help;
 import ultrasclaimprotection.commands.subcommands.LandInformation;
 import ultrasclaimprotection.commands.subcommands.MembersAdd;
 import ultrasclaimprotection.commands.subcommands.MembersList;
@@ -27,6 +29,7 @@ import ultrasclaimprotection.commands.subcommands.SetSpawn;
 import ultrasclaimprotection.commands.subcommands.Unclaim;
 import ultrasclaimprotection.commands.subcommands.Visit;
 import ultrasclaimprotection.commands.subcommands.LandView;
+import ultrasclaimprotection.commands.subcommands.Leave;
 import ultrasclaimprotection.managers.LandRolesManager;
 import ultrasclaimprotection.managers.LandsManager;
 
@@ -75,6 +78,15 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "setdescription":
                         new SetDescription().onCommand(sender, command, label, args);
+                        break;
+                    case "abandon":
+                        new Abandon().onCommand(sender, command, label, args);
+                        break;
+                    case "help":
+                        new Help().onCommand(sender, command, label, args);
+                        break;
+                    case "leave":
+                        new Leave().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -149,6 +161,9 @@ public class LandsCommand implements TabExecutor {
                     arraylist = LandsManager.getListLandNames();
                     break;
                 case "visit":
+                    arraylist = LandsManager.getListLandNames();
+                    break;
+                case "leave":
                     arraylist = LandsManager.getListLandNames();
                     break;
             }
@@ -241,6 +256,9 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("visit");
         arraylist.add("setspawn");
         arraylist.add("setdescription");
+        arraylist.add("abandon");
+        arraylist.add("help");
+        arraylist.add("leave");
 
         return arraylist;
     };

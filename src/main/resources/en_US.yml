@@ -22,22 +22,40 @@ general:
 commands:
   prefix: "&8[&9UltrasClaim&8] &r"
 
+  abandon:
+    land_null: "&cYou must create a land to delete a land."
+    land_deleted: "&aYour land has been successfully &cdeleted&a."
+
   claim:
     chunk_taken: "&cThis chunk is already been claimed."
     chunk_disabled_world: "&cYou are currently in a world where chunks cannot be claimed."
+    chunk_non_spaced: "&cYou must keep at least &71 &cchunk space between other lands!"
     land_name_arg_null: "&cPlease provide a new land name, because you're going to create a new one."
     land_name_non_alphanumeric: "&cThe land name must be alphanumeric."
     land_name_too_long: "&cThe land name is too long, please make sure the length is between 1 and 16."
     land_name_taken: "&cThis land name is already been taken, please choose another one."
+    limit_reached: "&cYou cannot claim more chunks, you have reached the limit by your rank!"
     chunk_claimed: "&aYou have successfully claimed the chunk: %chunk_details%"
 
   claimlist:
     land_null: "&cYou must create a land to view the claims list."
     teleport_success: "&aSuccessfully teleport to the chunk: %chunk_details%"
 
+  help:
+    message:
+      - "&9UltrasClaimProtection, by TFAGaming."
+      - "&aDownload: &7https://github.com/TFAGaming/UltrasClaim"
+      - "&aLicense: &7Apache-2.0 license"
+
   land_information:
     land_arg_null: "&cYou must provide the land name."
     land_null: "&cThis land name was not found."
+
+  leave:
+    land_arg_null: "&cYou must provide the land name."
+    land_null: "&cThis land name was not found."
+    player_not_trusted: "&cYou are not trusted in this land."
+    player_removed: "&aYou have successfully left the land."
 
   member_add:
     land_null: "&cYou must create a land to manage members."
@@ -48,6 +66,8 @@ commands:
     role_arg_null: "&cYou must provide the role name."
     role_null: "&cThis role name was not found."
     role_first_priority: "&cThis role is a Visitor role, land members cannot be marked as visitors."
+    member_limit_reached: "&cThe player you wanted to trust has reached their limit! You cannot trusted them."
+    limit_reached: "&cYou have reached the limit of your land members!"
     player_added: "&aSuccessfully trusted the player, they are now a member of your land."
 
   member_list:
@@ -70,6 +90,9 @@ commands:
     player_not_trusted: "&cThis player is not trusted in this land."
     player_removed: "&aSuccessfully removed the player from your land."
 
+  natural_flags:
+    land_null: "&cYou must create a land to manage natural flags."
+
   player_information:
     player_arg_null: "&cYou must provide the player name."
     player_not_registered: "&cThis player has never joined this server."
@@ -89,6 +112,7 @@ commands:
     role_name_non_alphanumeric: "&cThe role name must be alphanumeric."
     role_name_too_long: "&cThe role name is too long, please make sure the length is between 1 and 16."
     role_found: "&cThis role name already exists, please choose another one."
+    limit_reached: "&cYou cannot create more roles because you have reached the limit!"
     role_created: "&aSuccessfully created a new role: &7%role_name%&a."
 
   role_delete:
