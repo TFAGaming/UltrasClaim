@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ultrasclaimprotection</groupId>
-	<artifactId>ultrasclaimprotection</artifactId>
+	<groupId>veloxclaimprotection</groupId>
+	<artifactId>veloxclaimprotection</artifactId>
 	<version>1.0.0-prerelease-1</version>
 
 	<properties>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.20.6-R0.1-SNAPSHOT</version>
+			<version>1.21-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 

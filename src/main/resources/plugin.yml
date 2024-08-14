@@ -1,7 +1,7 @@
-name: UltrasClaimProtection
-main: ultrasclaimprotection.UltrasClaimProtection
+name: VeloxClaim
+main: veloxclaimprotection.VeloxClaimProtection
 version: 1.0.0-prerelease-1
-api-version: 1.20.6
+api-version: 1.21
 softdepend: [Vault]
 commands:
   lands:
@@ -9,8 +9,8 @@ commands:
     usage: '/<command> [subcommand]'
     aliases:
      - land
-    permission: ultrasclaimprotection.lands
+    permission: veloxclaim.lands
 permissions:
-  ultrasclaimprotection.lands:
+  veloxclaim.lands:
     description: "Allow a player to run the command: /lands"
     default: true
