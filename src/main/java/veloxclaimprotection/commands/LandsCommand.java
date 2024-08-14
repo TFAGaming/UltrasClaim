@@ -12,6 +12,7 @@ import veloxclaimprotection.commands.subcommands.Abandon;
 import veloxclaimprotection.commands.subcommands.Claim;
 import veloxclaimprotection.commands.subcommands.ClaimList;
 import veloxclaimprotection.commands.subcommands.Help;
+import veloxclaimprotection.commands.subcommands.LandHome;
 import veloxclaimprotection.commands.subcommands.LandInformation;
 import veloxclaimprotection.commands.subcommands.LandView;
 import veloxclaimprotection.commands.subcommands.Leave;
@@ -87,6 +88,9 @@ public class LandsCommand implements TabExecutor {
                         break;
                     case "leave":
                         new Leave().onCommand(sender, command, label, args);
+                        break;
+                    case "home":
+                        new LandHome().onCommand(sender, command, label, args);
                         break;
                     default:
                         break;
@@ -259,6 +263,7 @@ public class LandsCommand implements TabExecutor {
         arraylist.add("abandon");
         arraylist.add("help");
         arraylist.add("leave");
+        arraylist.add("home");
 
         return arraylist;
     };

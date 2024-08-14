@@ -35,6 +35,12 @@ public class PlayerMovementChunkEntry implements Listener {
             cache.put(player.getUniqueId(), false);
         }
 
+        if (!(event.getFrom().getBlockX() != event.getTo().getBlockX()
+                || event.getFrom().getBlockZ() != event.getTo().getBlockZ()
+                || event.getFrom().getBlockY() != event.getTo().getBlockY())) {
+            return;
+        }
+
         if (LandChunksManager.contains(chunk)) {
             if (cache.get(player.getUniqueId()))
                 return;

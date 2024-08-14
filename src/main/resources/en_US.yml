@@ -20,7 +20,7 @@ general:
     unclaimed: "&aYou are now in &2Wilderness&a!"
 
 commands:
-  prefix: "&8[&9UltrasClaim&8] &r"
+  prefix: "&8[&9Velox&8] &r"
 
   abandon:
     land_null: "&cYou must create a land to delete a land."
@@ -43,9 +43,13 @@ commands:
 
   help:
     message:
-      - "&9UltrasClaimProtection, by TFAGaming."
-      - "&aDownload: &7https://github.com/TFAGaming/UltrasClaim"
+      - "&9VeloxClaimProtection, by TFAGaming."
+      - "&aDownload: &7https://github.com/TFAGaming/VeloxClaim"
       - "&aLicense: &7Apache-2.0 license"
+
+  home:
+    land_null: "&cYou must create a land."
+    teleported_success: "&aYou have been teleported to the coordinates: %location_details%"
 
   land_information:
     land_arg_null: "&cYou must provide the land name."
@@ -544,4 +548,4 @@ items:
       item: "HEAD-4aee6bb37cbfc92b0d86db5ada4790c64ff4468d68b84942fde04405e8ef5333"
 
 permissions:
-  role_permissions: "&8[&9UltrasClaim&8] &cYou do not the permission to do this! &8(Flag: %permission%)"
+  role_permissions: "&8[&9Velox&8] &cYou do not the permission to do this! &8(Flag: %permission%)"
