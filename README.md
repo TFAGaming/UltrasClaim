@@ -1,3 +1,6 @@
+# Project Abandoned
+# It was replaced with Homestead, [Click here](https://www.spigotmc.org/resources/%E2%9C%85-homestead-%E2%9A%94%EF%B8%8F-regions-grief-prevention-1-21.121873/)
+
 <img width="150" height="150" align="left" style="float: left; margin: 0 10px 10px 0;" alt="VeloxClaimProtection" src="assets/icon.png">
 
 <h3><samp>Velox Claim</samp></h3>
